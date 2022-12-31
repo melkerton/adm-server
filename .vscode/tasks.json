@@ -12,6 +12,17 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        
+        {
+            "label": "Auto Git Commit",
+            "type": "shell",
+            "command": "./auto-commit.sh",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
