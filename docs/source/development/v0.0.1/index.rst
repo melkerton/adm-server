@@ -18,10 +18,10 @@ Minimal Viable Product
 Configuration
 ----------------------
 
-All configuration is controlled by configuration files. 
+All configuration is controlled by files. 
 
-    #. System configuration is found in `server.yaml`. 
-    #. Request matching and response is controlled by `endpoints/index.yaml` [#endpoints]_.
+    #. System configuration is found in **server.yaml**. 
+    #. Request matching and response is controlled by **endpoints/index.yaml** [#endpoints]_.
 
 Filename: `server.yaml` (YamlMap).
 
