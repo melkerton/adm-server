@@ -1,22 +1,6 @@
 Plan
 ====
 
--------------
-Configuration
--------------
-
-
----------
-Execution
----------
-
-Change to the root of the directory containing `server.yaml` and `endpoints/` and execute 
-
-.. code-block::
-
-    $ xdm-serve
-
-
 ---------------
 System Overview
 ---------------

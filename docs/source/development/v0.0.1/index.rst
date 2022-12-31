@@ -7,20 +7,9 @@ Minimal Viable Product
 
     adm-serve-v0.0.1 will provide
 
-    #. a specific [#specific]_ http mock testing solution,
-        
-        #. a method for mocking Keycloak endpoints,
-        #. a method for mocking typical Django endpoints.
- 
-----
-
-
-As a result Writers in v0.0.1 must:
-
-#. Write the entire response. 
-    
-    They are given a Response object that they can (and should) write the entire Http Message as a response.
-
+    #. a method for mocking Keycloak endpoints,
+    #. a method for mocking typical Django Rest Framework endpoints,
+    #. the user with control over the entire Http Response Message.
 
 ----------------------
 Configuration
