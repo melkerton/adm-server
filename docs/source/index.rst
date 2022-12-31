@@ -9,7 +9,6 @@ Welcome to xdm Documentation!
 Learning Dart.
 
 .. toctree::
-   :maxdepth: 1
 
    development/index.rst
    cheatsheet.rst

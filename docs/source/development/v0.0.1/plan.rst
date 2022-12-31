@@ -5,33 +5,12 @@ Plan
 Configuration
 -------------
 
-All configuration is controlled by configuration files. System configuration is found in `server.yaml`. Request matching and response is controlled by `endpoints/index.yaml` [#endpoints]_.
-
-Filename: `server.yaml`.
-
-.. code-block:: none
-
-    server: 
-        port: Integer ? 1025
-        host: String ? '0.0.0.0'
-
-Filename: `endpoints/index.yaml`.
-
-.. code-block::
-
-    - endpoint: String
-        path: String ? '/'
-        method: String ? 'ANY'
-        query: String ? NONE
-2    .
-    .
-    .
 
 ---------
 Execution
 ---------
 
-Change to the root of the directory containing `server.yaml` and `endpoints` and execute 
+Change to the root of the directory containing `server.yaml` and `endpoints/` and execute 
 
 .. code-block::
 
@@ -71,7 +50,3 @@ PlantUml flow diagram
 #. Server :math:`\to` ResponseWriter
 #. ResponseWriter :math:`\to` Server
 #. Server :math:`\to` Client
-
-.. [#endpoints] Why not just `endpoints.yaml`?
-    
-    A future release will support multiple files in nested directories. 

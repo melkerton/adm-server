@@ -1,27 +1,89 @@
 v0.0.1
 ======
 
+----------------------
+Minimal Viable Product
+----------------------
+
+    adm-serve-v0.0.1 will provide
+
+    #. a specific [#specific]_ http mock testing solution,
+        
+        #. a method for mocking Keycloak endpoints,
+        #. a method for mocking typical Django endpoints.
+ 
+----
+
+
+As a result Writers in v0.0.1 must:
+
+#. Write the entire response. 
+    
+    They are given a Response object that they can (and should) write the entire Http Message as a response.
+
+
+----------------------
+Configuration
+----------------------
+
+All configuration is controlled by configuration files. System configuration is found in `server.yaml`. Request matching and response is controlled by `endpoints/index.yaml` [#endpoints]_.
+
+Filename: `server.yaml`.
+
+.. code-block:: none
+
+    server: 
+        port: Integer (Default 1025)
+        host: String (Default '0.0.0.0')
+
+Filename: `endpoints/index.yaml`.
+
+.. code-block::
+
+    - response: String (Required)
+        path: String (Default '/')
+        method: String (Default Any)
+        query: String (Default None)
+
+----------------------
+Execution
+----------------------
+
+Change to the root of the directory containing `server.yaml` and `endpoints/` and execute 
+
+.. code-block::
+
+    $ xdm-serve
+
+
+**MAILDROP**
+
+
+----------------------
+Release Test
+----------------------
+
+Request:
+
+.. code-block::
+
+    GET / HTTP/1.1
+
+Response:
+
+.. code-block::
+
+    HTTP
+
+
 .. toctree::
-   :maxdepth: 1
 
    notes.rst
    plan.rst
    pseudo-code.rst
 
-----------------------
-Minimal Viable Product
-----------------------
+**OLD**
 
-The objective of v0.0.1 is to provide a means to test Keycloak endpoints. As such the only Writers that will be implemented is the DefaultResponseWriter and the PipeResponseWriter. 
-
-
-**Functional Requirements**
-
-    - match requests on
-
-        - path + query, regex or exact
-
-    - support any common case response
 
 **Target Test Cases**
 
@@ -46,3 +108,9 @@ Response
 
     http://localhost/alpha HTTP/1.1
 
+
+.. [#endpoints] Why not just `endpoints.yaml`?
+    
+    A future release will support multiple files in nested directories. 
+
+.. [#specific] Only cases directly required for testing either LugBulk or Barter Ledger are being considered.

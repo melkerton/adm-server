@@ -1,6 +1,0 @@
-.. code-block::
-    endpoints:
-        - path: String
-            tags: [String] ? []
-            method: String ? 'ANY'
-            query: String
