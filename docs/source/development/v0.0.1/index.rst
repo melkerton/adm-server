@@ -6,6 +6,7 @@ v0.0.1
 
    notes.rst
    plan.rst
+   pseudo-code.rst
 
 ----------------------
 Minimal Viable Product

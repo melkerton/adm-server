@@ -9,3 +9,12 @@ Cheatsheet
  Section Title
 ---------------
 
+
+latex-block
+
+.. math::
+
+   \to
+
+
+latex-inline :math:`\to`
