@@ -5,7 +5,7 @@ v0.0.1
 Minimal Viable Product
 ----------------------
 
-    adm-serve-v0.0.1 will provide
+    adm-server-v0.0.1 will provide
 
     #. a method for mocking Keycloak endpoints,
     #. a method for mocking typical Django Rest Framework endpoints,
@@ -42,7 +42,7 @@ Change to the root of the directory containing `server.yaml` and `endpoints/` an
 
 .. code-block::
 
-    $ xdm-serve
+    $ adm-server
 
 
 **MAILDROP**
