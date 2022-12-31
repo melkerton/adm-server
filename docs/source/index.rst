@@ -12,8 +12,10 @@ Learning Dart.
    :maxdepth: 2
    :caption: Contents:
 
-   developer/index.rst
-
+   development/index.rst
+   development/v0.0.1
+   cheatsheet.rst
+   
 
 Indices and tables
 ==================
