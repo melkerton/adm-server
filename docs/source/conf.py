@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 
-project = 'xperi-dart-mock'
+project = 'xDm'
 copyright = '2022, Michael Elkerton'
 author = 'Michael Elkerton'
 release = 'v0.0.1'

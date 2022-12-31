@@ -6,7 +6,7 @@
         {
             "label": "Build Sphinx Docs",
             "type": "shell",
-            "command": "cd docs && ./sphinx.sh",
+            "command": "cd docs && ./sphinx-build.sh",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
