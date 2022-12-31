@@ -4,8 +4,8 @@ v0.0.1
 .. toctree::
    :maxdepth: 1
 
-   plan.rst
    notes.rst
+   plan.rst
 
 ----------------------
 Minimal Viable Product
