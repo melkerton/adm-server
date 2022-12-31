@@ -29,6 +29,22 @@ jobs:
                   name: 'Dart Test (full)'
                   command: 'dart test'
 
+            # generate coverage
+            - run:
+                  name: 'Get CodeCov'
+                  command: 'curl -Os https://uploader.codecov.io/v0.1.0_4653/linux/codecov && chmod +x codecov'
+            - run:
+                  name: 'Test with coverage'
+                  command: 'dart run coverage:test_with_coverage'
+
+            - run:
+                  name: 'Format coverage'
+                  command: 'dart run coverage:format_coverage -i coverage/coverage.json'
+
+            - run:
+                  name: 'Upload coverage to CodeCov'
+                  command: ./codecov -t 97d2958c-e268-40f2-b7a4-53efd3fb4686
+
 workflows:
     test-workflow:
         jobs:
