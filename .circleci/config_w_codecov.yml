@@ -43,7 +43,7 @@ jobs:
 
             - run:
                   name: 'Upload coverage to CodeCov'
-                  command: ./codecov -t ba3ac644-3887-4b26-8733-1c9df8db6fa9
+                  command: ./codecov -t 97d2958c-e268-40f2-b7a4-53efd3fb4686
 
 workflows:
     test-workflow:
