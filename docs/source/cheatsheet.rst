@@ -1,5 +1,5 @@
-Cheatsheet
-==========
+RST Cheatsheet
+==============
 
 ===============
  Section Title

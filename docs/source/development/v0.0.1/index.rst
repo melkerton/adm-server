@@ -7,17 +7,23 @@ Minimal Viable Product
 
     adm-server-v0.0.1 will provide
 
-    #. a method for mocking Keycloak endpoints,
-    #. a method for mocking typical Django Rest Framework endpoints,
+    #. a method for mocking Keycloak and typical Django Rest Framework endpoints,
+    #. a basic request matching utility that 
+    
+        #. performs matches on the requested uri including the query string, for example given the request **http://localhost/widgets?id=1** the match string is **widgets?id=1**,
+        #. uses simple comparison matching, i.e. matches exactly the first N characters of each string (where N is the length of the configured path), to determine if there is a match or not.
     #. the user with control over the entire Http Response Message.
 
 ----------------------
 Configuration
 ----------------------
 
-All configuration is controlled by configuration files. System configuration is found in `server.yaml`. Request matching and response is controlled by `endpoints/index.yaml` [#endpoints]_.
+All configuration is controlled by configuration files. 
 
-Filename: `server.yaml`.
+    #. System configuration is found in `server.yaml`. 
+    #. Request matching and response is controlled by `endpoints/index.yaml` [#endpoints]_.
+
+Filename: `server.yaml` (YamlMap).
 
 .. code-block:: none
 
@@ -25,7 +31,7 @@ Filename: `server.yaml`.
         port: Integer (Default 1025)
         host: String (Default '0.0.0.0')
 
-Filename: `endpoints/index.yaml`.
+Filename: `endpoints/index.yaml` (YamlList).
 
 .. code-block::
 
@@ -45,61 +51,57 @@ Change to the root of the directory containing `server.yaml` and `endpoints/` an
     $ adm-server
 
 
-**MAILDROP**
+
+---------------
+System Overview
+---------------
+
+This section generally describes the interaction between primary objects.
+
++++++++++++++++
+Primary Objects
++++++++++++++++
+
+#. Server: creates a socket and listens for requests.
+#. Sources: file system management.
+#. Endpoint: pattern matching and routing.
+#. ResponseWriter: http response to client.
+
++++++++++
+Data Flow
++++++++++
+
+#. Client asks Server for a Response.
+#. Server asks Sources for an Endpoint.
+#. Server asks Endpoint for a Response
+#. Server asks Response to write data to Client.
+
+Http response for unmatched request:
+
+.. code-block::
+
+    HTTP/1.1 452 No Match Found
+    x-requested-uri: REQUESTED_URI\n\n
 
 
 ----------------------
-Release Test
+Release Tests 
 ----------------------
 
-Request:
+#. A matched response (200 Ok).
 
-.. code-block::
-
-    GET / HTTP/1.1
-
-Response:
-
-.. code-block::
-
-    HTTP
+#. An unmatched response (454 No Match).
 
 
-.. toctree::
+----------------------
+References
+----------------------
 
-   notes.rst
-   plan.rst
-   pseudo-code.rst
-
-**OLD**
-
-
-**Target Test Cases**
-
-Case 1) Simple response
-
-Request
-
-.. code-block::
-
-    GET /alpha HTTP/1.1
-    host: localhost
-    
-    .
-
-
-Response
-
-
-.. code-block::
-
-    HTTP/1.1 200 Ok
-
-    http://localhost/alpha HTTP/1.1
+#. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+#. https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages
 
 
 .. [#endpoints] Why not just `endpoints.yaml`?
     
     A future release will support multiple files in nested directories. 
 
-.. [#specific] Only cases directly required for testing either LugBulk or Barter Ledger are being considered.
