@@ -20,25 +20,22 @@ Configuration
 
 All configuration is controlled by files. 
 
-    #. System configuration is found in **server.yaml**. 
-    #. Request matching and response is controlled by **endpoints/index.yaml** [#endpoints]_.
+    #. System configuration is found in **server.yaml** (YamlMap). 
 
-Filename: `server.yaml` (YamlMap).
+        .. code-block::
 
-.. code-block:: none
+            server: 
+                port: Integer (Default 1025)
+                host: String (Default '0.0.0.0')
 
-    server: 
-        port: Integer (Default 1025)
-        host: String (Default '0.0.0.0')
+    #. Response is controlled by **endpoints/index.yaml**  (YamlList) [#endpoints]_.
 
-Filename: `endpoints/index.yaml` (YamlList).
+        .. code-block::
 
-.. code-block::
-
-    - response: String (Required)
-        path: String (Default '/')
-        method: String (Default Any)
-        query: String (Default None)
+            - response: String (Required)
+                path: String (Default '/')
+                method: String (Default Any)
+                query: String (Default None)
 
 ----------------------
 Execution
@@ -80,7 +77,7 @@ Http response for unmatched request:
 
 .. code-block::
 
-    HTTP/1.1 452 No Match Found
+    HTTP/1.1 452 Unmatched
     x-requested-uri: REQUESTED_URI\n\n
 
 
@@ -90,7 +87,7 @@ Release Tests
 
 #. A matched response (200 Ok).
 
-#. An unmatched response (454 No Match).
+#. An unmatched response (452 Unmatched) [#authoratative]_.
 
 
 ----------------------
@@ -105,3 +102,4 @@ References
     
     A future release will support multiple files in nested directories. 
 
+..  [#authoratative] This is the authoratative value for Http Response Label.
