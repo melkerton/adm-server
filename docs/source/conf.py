@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 
-project = 'xperi-dart-mock'
+project = 'adm-server'
 copyright = '2022, Michael Elkerton'
 author = 'Michael Elkerton'
 release = 'v0.0.1'
@@ -21,7 +21,6 @@ extensions = [
 
 templates_path = ['_templates']
 exclude_patterns = []
-
 
 
 # -- Options for HTML output -------------------------------------------------

@@ -1,11 +1,24 @@
-Cheatsheet
-==========
+RST Cheatsheet
+==============
 
-===============
- Section Title
-===============
+++++++++++++++++++++++++
+first section symbol +. 
+++++++++++++++++++++++++
 
----------------
- Section Title
----------------
+-----------------------
+second section symbol -.
+-----------------------
 
+
+
+latex-block
+
+.. math::
+
+   \to
+
+
+latex-inline :math:`\to`
+
+
+`@kadevapp <https://twitter.com/kadevapp>`_
