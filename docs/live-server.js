@@ -16,11 +16,12 @@ liveServer.start(params);
 */
 
 var params = {
-	port: 21212,
-	host: "0.0.0.0",
-	root: "../build/html", 
+	port: 8081,
+	host: "vscode.kadev.app",
+	root: "build/html", 
 	open: false, 
 	file: "index.html", 
+	https: '/opt/letsencrypt/live-server-https.js'
 };
 
 liveServer.start(params);
