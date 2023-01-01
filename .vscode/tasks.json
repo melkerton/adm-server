@@ -6,7 +6,18 @@
         {
             "label": "Build Sphinx Docs",
             "type": "shell",
-            "command": "cd docs && ./sphinx.sh",
+            "command": "cd docs && ./sphinx-build.sh",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        
+        {
+            "label": "Auto Git Commit",
+            "type": "shell",
+            "command": "./auto-commit.sh",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
