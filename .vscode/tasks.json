@@ -9,7 +9,7 @@
             "command": "cd docs && ./sphinx-build.sh",
             "problemMatcher": [],
             "group": {
-                "kind": "build",
+                "kind": "test",
                 "isDefault": true
             }
         },
