@@ -17,12 +17,12 @@ compile:
 	dart compile
 
 coverage-build:
-	test_with_coverage
+	dart run coverage:test_with_coverage
 
 coverage-format:
-	format_coverage -i coverage/coverage.json
+	dart run coverage:format_coverage -i coverage/coverage.json
 
-coverage-upload:
+codecov-upload:
 	codecov -t ba3ac644-3887-4b26-8733-1c9df8db6fa9
 
 doc:
