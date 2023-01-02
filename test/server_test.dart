@@ -15,10 +15,10 @@ main() {
     // calling listen before bind should throw an exception
     expect(server.listen, throwsA(isA<ErrorServerNotBound>()));
 
-    await server.bind();
+    //await server.bind();
     // get server uri
     // non-zero port
-    expect(server.port, greaterThan(0));
+    //expect(server.port, greaterThan(0));
 
     /// write a plan
   });

@@ -23,14 +23,10 @@ class Server {
     return;
   }
 
-  void listen() async {
+  void listen() {
     if (httpServer == null) {
       throw ErrorServerNotBound();
     }
-
-    await httpServer!.forEach((request) {
-      request.response.close();
-    });
   }
 
   int get port => httpServer != null ? httpServer!.port : 0;

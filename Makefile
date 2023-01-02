@@ -16,13 +16,10 @@ analyze:
 compile:
 	dart compile
 
-coverage-build:
+coverage:
+	git add . && git commit -m 'upload to codecov'
 	dart run coverage:test_with_coverage
-
-coverage-format:
 	dart run coverage:format_coverage -i coverage/coverage.json
-
-codecov-upload:
 	codecov -t ba3ac644-3887-4b26-8733-1c9df8db6fa9
 
 doc:
