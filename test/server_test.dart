@@ -12,6 +12,9 @@ main() {
   test('DefaultServer', () async {
     final server = Server();
 
+    expect(server.port, 0);
+    //expect(server.port, greaterThan(0));
+
     // calling listen before bind should throw an exception
     expect(server.listen, throwsA(isA<ErrorServerNotBound>()));
 
