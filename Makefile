@@ -18,7 +18,6 @@ compile:
 
 coverage:
 	rm -rf coverage
-	git add . && git commit -m 'upload to codecov' && git push
 	dart run coverage:test_with_coverage
 	codecov -t ba3ac644-3887-4b26-8733-1c9df8db6fa9
 
