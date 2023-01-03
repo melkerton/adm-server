@@ -19,6 +19,11 @@ compile:
 coverage:
 	rm -rf coverage
 	dart run coverage:test_with_coverage
+
+coverage-local: coverage
+	genhtml coverage/lcov.info -o coverage/html
+
+coverage-remote: coverage
 	codecov -t ba3ac644-3887-4b26-8733-1c9df8db6fa9
 
 doc:
