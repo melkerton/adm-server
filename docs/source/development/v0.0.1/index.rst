@@ -56,7 +56,7 @@ System Overview
 This section generally describes the interaction between primary objects.
 
 +++++++++++++++
-Primary Objects
+Primary Objects 
 +++++++++++++++
 
 #. Server: creates a socket and listens for requests.

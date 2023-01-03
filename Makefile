@@ -5,6 +5,9 @@ test:
 test-watch:
 	nodemon -x 'dart test' -e 'dart'
 
+docs-serve:
+	dtach -n docs-serve.d node docs-serve.js
+
 # publishing
 
 analyze:
@@ -13,13 +16,14 @@ analyze:
 compile:
 	dart compile
 
-coverage-build:
-	test_with_coverage
+coverage:
+	rm -rf coverage
+	dart run coverage:test_with_coverage
 
-coverage-format:
-	format_coverage -i coverage/coverage.json
+coverage-local: coverage
+	genhtml coverage/lcov.info -o coverage/html
 
-coverage-upload:
+coverage-remote: coverage
 	codecov -t ba3ac644-3887-4b26-8733-1c9df8db6fa9
 
 doc:

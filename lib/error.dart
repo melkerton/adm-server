@@ -1,0 +1,1 @@
+class ErrorServerNotBound extends Error {}
