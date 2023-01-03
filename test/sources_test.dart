@@ -26,16 +26,6 @@ main() {
     }
   });
 
-  test('ThrowsExamples', () {
-    final Matcher throwsError = throwsA(isA<Error>());
-
-    // no arguments
-    expect(Sources.throwAError, throwsError);
-
-    // with arguments
-    expect(() => Sources.throwAErrorArgument(0), throwsError);
-  });
-
   test('SourcesDirNotFound', () {
     final Matcher throwsError = throwsA(isA<ErrorSourcesDirNotFound>());
 

@@ -45,8 +45,6 @@ class Endpoint {
       log.severe(endpointFile.path);
       throw ErrorEndpointConfig();
     }
-
-    print(responseFile);
   }
 
   /*

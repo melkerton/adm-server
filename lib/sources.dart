@@ -25,22 +25,15 @@ class Sources {
     return Sources(sourcesDir: sourcesDir);
   }
 
-  Endpoint getEndpoint() {
+  Endpoint? getEndpoint() {
     final endpointFile = File("$sourcesDir/index.yaml");
 
     if (endpointFile.existsSync() == false) {
       throw ErrorSourcesEndpointFileNotFound();
     }
 
-    return Endpoint(endpointFile: endpointFile);
-  }
-
-  static void throwAError() {
-    throw Error();
-  }
-
-  static void throwAErrorArgument(int arg) {
-    throw Error();
+    return null;
+    //return Endpoint(endpointFile: endpointFile);
   }
 }
 
