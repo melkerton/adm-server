@@ -3,7 +3,6 @@ import 'dart:io';
 
 // package
 
-import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 import 'package:xperi_dart_mock/endpoint.dart';
 
@@ -16,13 +15,13 @@ main() {
   test('SourcesEndpointFile', () {
     //
     Sources sources;
-    sources = Sources(sourcesDir: "example/not-really-here");
+    sources = Sources(sourcesDir: "example/errors/not-really-here");
 
     // not found
     bool thrown = false;
     try {
       // [1]
-      sources.getEndoint(0);
+      sources.getEndpoint();
     } catch (e) {
       expect(e, isA<ErrorEndpointIndexFileNotFound>());
       thrown = true;
@@ -32,7 +31,7 @@ main() {
 
     // found
     sources = Sources(sourcesDir: "example/endpoint");
-    Endpoint? endpoint = sources.getEndoint(0);
+    Endpoint? endpoint = sources.getEndpoint();
 
     expect(endpoint, isNotNull);
   });
@@ -43,7 +42,7 @@ main() {
     try {
       // [1]
       /// review this, check it doesnt exists first? pre
-      Sources(sourcesDir: "example/not-really-there");
+      Sources(sourcesDir: "example/errors/not-really-there");
     } catch (e) {
       expect(e, isA<ErrorEndpointDirectoryNotFound>());
       thrown = true;

@@ -36,6 +36,8 @@ All configuration is controlled by files.
                 path: String (Default '/')
                 method: String (Default Any)
                 query: String (Default None)
+    
+    #. Need to address need for a min default endpoint
 
 ----------------------
 Execution

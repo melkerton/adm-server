@@ -11,7 +11,7 @@ import 'package:xperi_dart_mock/error.dart';
 /// need to do ErrorEndpointDirectoryNotFound check on init
 
 class Sources {
-  final sourcesDir;
+  String sourcesDir;
   Sources({required this.sourcesDir}) {
     final endpointDir = Directory(sourcesDir);
     if (endpointDir.existsSync() == false) {
@@ -19,7 +19,7 @@ class Sources {
     }
   }
 
-  Endpoint? getEndoint(int httpRequest) {
+  Endpoint? getEndpoint() {
     final endpointFile = File("$sourcesDir/index.yaml");
 
     if (endpointFile.existsSync() == false) {
@@ -28,8 +28,6 @@ class Sources {
 
     return Endpoint(endpointFile: endpointFile);
   }
-
-  //throw ErrorEndpointDirectoryNotFound();
 }
 
 /*

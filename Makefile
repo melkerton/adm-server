@@ -5,6 +5,9 @@ test:
 test-watch:
 	nodemon -x 'dart test' -e 'dart'
 
+test-endpoint-watch:
+	nodemon -x 'dart test test/endpoint_test.dart' -e 'dart'
+
 docs-serve:
 	dtach -n docs-serve.d node docs-serve.js
 
