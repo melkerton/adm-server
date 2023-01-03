@@ -28,17 +28,19 @@ main() {
     // server listens for requests
     server.listen();
 
-    expect(server.uri, equals(Uri.parse("http://localhost:${server.port}")));
-
     // make a request
     final client = http.Client();
-    final response = await client.get(server.uri);
-
-    print(response.reasonPhrase);
+    final uri = Uri.parse("http://localhost:${server.port}/alpha");
+    final response = await client.get(uri);
 
     // check we get a 452 response with correct protocolVersion
     expect(response.statusCode, equals(452));
     expect(response.reasonPhrase, equals("Unmatched"));
+
+    // check x-requested-uri is set and correct
+    expect(response.headers.containsKey('x-requested-uri'), isTrue);
+
+    expect(response.headers['x-requested-uri'], equals('alpha'));
 
     // close the thing
     await server.httpServer!.close();

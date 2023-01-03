@@ -21,8 +21,6 @@ class Server {
     httpServer = await HttpServer.bind("localhost", 0);
   }
 
-  Uri get uri => Uri.parse("http://localhost:$port");
-
   void listen() async {
     if (httpServer == null) {
       throw ErrorServerNotBound();
@@ -42,7 +40,9 @@ class Server {
     final socket = await response.detachSocket(writeHeaders: false);
 
     // no match found
-    socket.write("HTTP/${httpRequest.protocolVersion} 452 Unmatched\n\n");
+    socket.write("HTTP/${httpRequest.protocolVersion} 452 Unmatched\n");
+    socket.write("x-requested-uri: alpha\n");
+    socket.write("\n");
 
     await socket.flush(); // [1]
     await socket.close();

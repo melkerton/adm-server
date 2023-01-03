@@ -80,6 +80,19 @@ Http response for unmatched request:
     HTTP/1.1 452 Unmatched
     x-requested-uri: REQUESTED_URI\n\n
 
+Example 
+
+.. code-block::
+
+    # Request
+    GET /alpha HTTP/4.2
+    ...
+
+    # Response
+    HTTP/4.2 452 Unmatched
+    x-requested-uri: alpha
+    ...
+
 
 ----------------------
 Release Tests 
