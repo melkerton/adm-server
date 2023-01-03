@@ -29,7 +29,7 @@ class Sources {
   }
 
   Endpoint? getEndpoint() {
-    String endpointFilePath = "$sourcesDir/index.yaml";
+    String endpointFilePath = "${sourcesDir.path}/index.yaml";
     final endpointFile = File(endpointFilePath);
 
     if (endpointFile.existsSync() == false) {

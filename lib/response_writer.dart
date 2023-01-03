@@ -25,7 +25,6 @@ class ResponseWriter {
   }
 
   List<int> getHttpResponseMessage() {
-    /*
     // check non empty
     final httpMessage = responseFile.readAsBytesSync();
     if (httpMessage.isEmpty) {
@@ -37,7 +36,5 @@ class ResponseWriter {
 
     // readAsBytesSync
     return httpMessage;
-    */
-    return [];
   }
 }

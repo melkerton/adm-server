@@ -37,8 +37,13 @@ main() {
     sourcesDir = "example/errors/sources/no-endpoint-file";
     final sources = Sources.connect(sourcesDir);
     expect(() => sources.getEndpoint(), throwsError);
+  });
 
-    // getEndpoint
+  test('TestSourcesGetEndpointNotNull', () {
+    String sourcesDir = "example/endpoint";
+    final sources = Sources.connect(sourcesDir);
+    sources.getEndpoint();
+    expect(sources.getEndpoint(), isNotNull);
   });
 }
 
