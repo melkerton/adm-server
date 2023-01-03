@@ -36,6 +36,8 @@ All configuration is controlled by files.
                 path: String (Default '/')
                 method: String (Default Any)
                 query: String (Default None)
+    
+    #. Need to address need for a min default endpoint
 
 ----------------------
 Execution
@@ -68,10 +70,11 @@ Primary Objects
 Data Flow
 +++++++++
 
-#. Client asks Server for a Response.
+#. Client asks Server for a an HttpResponse (HttpRequest).
 #. Server asks Sources for an Endpoint.
 #. Server asks Endpoint for a Response
-#. Server asks Response to write data to Client.
+#. Server asks Response for an Http Message.
+#. Server gives Client the HttpResponse
 
 Http response for unmatched request:
 
@@ -80,15 +83,27 @@ Http response for unmatched request:
     HTTP/1.1 452 Unmatched
     x-requested-uri: REQUESTED_URI\n\n
 
+Example 
+
+.. code-block::
+
+    # Request
+    GET /alpha HTTP/4.2
+    ...
+
+    # Response
+    HTTP/4.2 452 Unmatched
+    x-requested-uri: alpha
+    ...
+
 
 ----------------------
 Release Tests 
 ----------------------
 
-#. A matched response (200 Ok).
+#. Return the required default endpoint response (200 Ok).
 
 #. An unmatched response (452 Unmatched) [#authoratative]_.
-
 
 ----------------------
 References

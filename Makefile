@@ -5,6 +5,21 @@ test:
 test-watch:
 	nodemon -x 'dart test' -e 'dart'
 
+test-endpoint:
+	dart test test/endpoint_test.dart
+
+test-endpoint-watch:
+	nodemon -x 'dart test test/endpoint_test.dart' -e 'dart'
+
+test-sources:
+	dart test test/sources_test.dart
+
+test-sources-watch:
+	nodemon -x 'dart test test/sources_test.dart' -e 'dart'
+
+test-server-watch:
+	nodemon -x 'dart test test/server_test.dart' -e 'dart'
+
 docs-serve:
 	dtach -n docs-serve.d node docs-serve.js
 
