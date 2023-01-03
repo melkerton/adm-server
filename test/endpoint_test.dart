@@ -1,15 +1,30 @@
+import 'dart:io';
+
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:xperi_dart_mock/endpoint.dart';
 import 'package:xperi_dart_mock/error.dart';
-import 'package:xperi_dart_mock/sources.dart';
 
 main() {
+  bool haveLog = false;
+  setUp(() {
+    if (haveLog == false) {
+      Logger.root.level = Level.ALL; // defaults to Level.INFO
+      Logger.root.onRecord.listen((record) {
+        print('${record.level.name}: ${record.time}: ${record.message}');
+      });
+
+      haveLog = true;
+      return;
+    }
+  });
+
   test('EndpointEmptyFile', () {
-    Sources sources = Sources(sourcesDir: "example/errors/empty-index");
+    final fileName = "example/errors/empty-index/index.yaml";
 
     bool thrown = false;
     try {
-      sources.getEndpoint();
+      Endpoint(endpointFile: File(fileName));
     } catch (e) {
       expect(e, isA<ErrorEndpointConfig>());
       thrown = true;
@@ -19,11 +34,11 @@ main() {
   });
 
   test('EndpointFirstIsNotYampMap', () {
-    Sources sources = Sources(sourcesDir: "example/errors/not-yaml-map");
+    final fileName = "example/errors/not-yaml-map/index.yaml";
 
     bool thrown = false;
     try {
-      sources.getEndpoint();
+      Endpoint(endpointFile: File(fileName));
     } catch (e) {
       expect(e, isA<ErrorEndpointConfig>());
       thrown = true;
@@ -33,11 +48,11 @@ main() {
   });
 
   test('EndpointFirstIsNotResponse', () {
-    Sources sources = Sources(sourcesDir: "example/errors/not-response");
+    final fileName = "example/errors/not-response/index.yaml";
 
     bool thrown = false;
     try {
-      sources.getEndpoint();
+      Endpoint(endpointFile: File(fileName));
     } catch (e) {
       expect(e, isA<ErrorEndpointConfig>());
       thrown = true;
@@ -45,6 +60,7 @@ main() {
 
     expect(thrown, isTrue);
   });
+
   /*
 
   test('EndpointFirstResponse404', () {
@@ -68,7 +84,7 @@ main() {
       sources.getEndpoint();
     } catch (e) {
       // forced
-      expect(true, isFalse);
+      //expect(true, isFalse);
     }
   });
   */

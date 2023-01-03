@@ -3,6 +3,7 @@ import 'dart:io';
 
 // package
 
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:xperi_dart_mock/endpoint.dart';
 
@@ -12,51 +13,51 @@ import 'package:xperi_dart_mock/sources.dart';
 // local
 
 main() {
-  test('SourcesEndpointFile', () {
-    //
-    Sources sources;
-    sources = Sources(sourcesDir: "example/errors/not-really-here");
+  bool haveLog = false;
+  setUp(() {
+    if (haveLog == false) {
+      Logger.root.level = Level.ALL; // defaults to Level.INFO
+      Logger.root.onRecord.listen((record) {
+        print('${record.level.name}: ${record.time}: ${record.message}');
+      });
 
-    // not found
-    bool thrown = false;
-    try {
-      // [1]
-      sources.getEndpoint();
-    } catch (e) {
-      expect(e, isA<ErrorEndpointIndexFileNotFound>());
-      thrown = true;
+      haveLog = true;
+      return;
     }
-
-    expect(thrown, isTrue);
-
-    // found
-    sources = Sources(sourcesDir: "example/endpoint");
-    Endpoint? endpoint = sources.getEndpoint();
-
-    expect(endpoint, isNotNull);
   });
 
-  test('SourcesEndpointDirectory', () {
-    // not found
-    bool thrown = false;
-    try {
-      // [1]
-      /// review this, check it doesnt exists first? pre
-      Sources(sourcesDir: "example/errors/not-really-there");
-    } catch (e) {
-      expect(e, isA<ErrorEndpointDirectoryNotFound>());
-      thrown = true;
-    }
+  test('ThrowsExamples', () {
+    final Matcher throwsError = throwsA(isA<Error>());
 
-    expect(thrown, isTrue);
+    // no arguments
+    expect(Sources.throwAError, throwsError);
 
-    try {
-      Sources(sourcesDir: "example/endpoint");
-    } catch (e) {
-      // forced
-      expect(true, isFalse);
-      // rethrow or exit?
-    }
+    // with arguments
+    expect(() => Sources.throwAErrorArgument(0), throwsError);
+  });
+
+  test('SourcesDirNotFound', () {
+    final Matcher throwsError = throwsA(isA<ErrorSourcesDirNotFound>());
+
+    String sourcesDir;
+
+    sourcesDir = "example/errors/sources/do-not-create";
+    expect(() => Sources.connect(sourcesDir), throwsError);
+
+    // getEndpoint
+  });
+
+  test('SourcesErrorSourcesEndpointFileNotFound', () {
+    final Matcher throwsError =
+        throwsA(isA<ErrorSourcesEndpointFileNotFound>());
+
+    String sourcesDir;
+
+    sourcesDir = "example/errors/sources/no-endpoint-file";
+    final sources = Sources.connect(sourcesDir);
+    expect(() => sources.getEndpoint(), throwsError);
+
+    // getEndpoint
   });
 }
 
