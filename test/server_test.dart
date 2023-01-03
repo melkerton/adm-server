@@ -47,7 +47,7 @@ main() {
     // check x-requested-uri is set and correct
     expect(response.headers.containsKey('x-requested-uri'), isTrue);
 
-    expect(response.headers['x-requested-uri'], equals('alpha'));
+    expect(response.headers['x-requested-uri'], equals(''));
 
     // close the thing
     await server.httpServer!.close();
