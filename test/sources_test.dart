@@ -3,18 +3,19 @@ import 'dart:io';
 
 // package
 
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
-import 'package:xperi_dart_mock/endpoint.dart';
 
 import 'package:xperi_dart_mock/error.dart';
 import 'package:xperi_dart_mock/sources.dart';
 
+import 'logger.dart';
+
 // local
 
 main() {
-  bool haveLog = false;
-  setUp(() {});
+  setUp(() {
+    TestLogger.record();
+  });
 
   test('SourcesDirNotFound', () {
     final Matcher throwsError = throwsA(isA<ErrorSourcesDirNotFound>());

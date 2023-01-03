@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
 import 'package:xperi_dart_mock/error.dart';
 import 'package:xperi_dart_mock/response_writer.dart';
@@ -12,7 +13,9 @@ import 'package:yaml/yaml.dart';
 class Endpoint {
   File endpointFile;
   YamlList? yamlList;
-  Logger log = Logger("Endpoint");
+
+  static Logger log = Logger("Endpoint");
+
   ResponseWriter? defaultResponseWriter;
 
   /// throws error on bad yaml
@@ -28,8 +31,8 @@ class Endpoint {
     final msgBase = endpointFile;
     String contents = endpointFile.readAsStringSync();
     if (contents.isEmpty) {
-      log.severe("$msgBase contents.isEmpty");
-      throw ErrorEndpointConfig();
+      Endpoint.log.severe("$msgBase contents.isEmpty");
+      throw ErrorEndpointIndexFileIsEmpty();
     }
 
     // load file contents
@@ -37,26 +40,28 @@ class Endpoint {
 
     // is a yamlMap?
     if (yamlList![0].runtimeType != YamlMap) {
-      log.severe("$msgBase runtimeType != YamlMap");
-      throw ErrorEndpointConfig();
+      Endpoint.log.severe("$msgBase runtimeType != YamlMap");
+      throw ErrorEndpointExpectedYamlMap();
     }
 
     YamlMap yamlMap = yamlList![0];
 
     // no response
     if (yamlMap.containsKey('response') == false) {
-      log.severe("$msgBase no response");
-      throw ErrorEndpointConfig();
+      Endpoint.log.severe("$msgBase undefined response");
+      throw ErrorEndpointResponseIsUndefined();
     }
 
     // response files exists?
-    final responseFile = File("${endpointFile.path}/${yamlMap['response']}");
+    final responseFilePath = [dirname(endpointFile.path), yamlMap['response']];
+
+    final responseFile = File(responseFilePath.join('/'));
     if (responseFile.existsSync() == false) {
-      log.severe(endpointFile.path);
-      throw ErrorEndpointConfig();
+      Endpoint.log.severe("$responseFilePath not found.");
+      throw ErrorEndpointResponseFileNotFound();
     }
 
-    defaultResponseWriter = ResponseWriter.builder(yamlMap['resource']);
+    defaultResponseWriter = ResponseWriter.builder(responseFile);
   }
 
   ResponseWriter? getResponseWriter() {

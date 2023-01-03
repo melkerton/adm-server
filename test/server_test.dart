@@ -8,9 +8,15 @@ import 'package:test/test.dart';
 import 'package:xperi_dart_mock/error.dart';
 import 'package:xperi_dart_mock/xperi_dart_mock.dart';
 
+import 'logger.dart';
+
 // local
 
 main() {
+  setUp(() {
+    TestLogger.record();
+  });
+
   /// test server responds
   /// Release Test 2. An unmatched response (452 Unmatched)
   test('DefaultServer', () async {

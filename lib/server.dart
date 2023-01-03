@@ -6,6 +6,7 @@ import 'dart:io';
 
 // local
 
+import 'package:logging/logging.dart';
 import 'package:xperi_dart_mock/error.dart';
 
 /// Handle mock requests
@@ -13,6 +14,8 @@ import 'package:xperi_dart_mock/error.dart';
 ///
 class Server {
   HttpServer? httpServer;
+
+  static Logger log = Logger("Server");
 
   /// Default constructor
   Server();
@@ -23,6 +26,8 @@ class Server {
 
   void listen() async {
     if (httpServer == null) {
+      // needed? seems like an error to yourself
+      Server.log.severe("Bind server before listen.");
       throw ErrorServerNotBound();
     }
 
