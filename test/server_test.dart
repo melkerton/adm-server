@@ -37,7 +37,7 @@ main() {
 
     // make a request
     final client = http.Client();
-    final uri = Uri.parse("http://localhost:${server.port}/alpha");
+    final uri = Uri.parse("http://localhost:${server.port}");
     final response = await client.get(uri);
 
     // check we get a 452 response with correct protocolVersion
@@ -50,6 +50,21 @@ main() {
     expect(response.headers['x-requested-uri'], equals('alpha'));
 
     // close the thing
+    await server.httpServer!.close();
+  });
+
+  test('TestServer', () async {
+    final server = Server();
+    await server.bind();
+    server.listen();
+
+    // tests
+    final client = http.Client();
+    final uri = Uri.parse("http://localhost:${server.port}/alpha");
+    final response = await client.get(uri);
+    print(response.statusCode);
+
+    // cleanup
     await server.httpServer!.close();
   });
 }

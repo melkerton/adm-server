@@ -17,6 +17,9 @@ test-sources:
 test-sources-watch:
 	nodemon -x 'dart test test/sources_test.dart' -e 'dart'
 
+test-server-watch:
+	nodemon -x 'dart test test/server_test.dart' -e 'dart'
+
 docs-serve:
 	dtach -n docs-serve.d node docs-serve.js
 

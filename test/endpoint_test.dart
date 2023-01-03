@@ -12,38 +12,39 @@ main() {
     TestLogger.record();
   });
 
-  test('TestEndpointErrorConfig', () {
+  test('TestEndpointErrorConstructorError', () {
     Matcher matcher;
     String indexFile;
     String basePath = "example/errors/endpoint";
 
-    matcher = throwsA(isA<ErrorEndpointIndexFileIsEmpty>());
-    indexFile = "$basePath/empty-index/index.yaml";
+    matcher = throwsA(isA<ErrorEndpointExpectedYamlList>());
+    indexFile = "$basePath/not-yaml-list/index.yaml";
     expect(() => Endpoint(endpointFile: File(indexFile)), matcher);
-
-    matcher = throwsA(isA<ErrorEndpointExpectedYamlMap>());
-    indexFile = "$basePath/not-yaml-map/index.yaml";
-    expect(() => Endpoint(endpointFile: File(indexFile)), matcher);
-
-    matcher = throwsA(isA<ErrorEndpointResponseIsUndefined>());
-    indexFile = "$basePath/not-response/index.yaml";
-    expect(() => Endpoint(endpointFile: File(indexFile)), matcher);
-
-    matcher = throwsA(isA<ErrorEndpointResponseFileNotFound>());
-    indexFile = "$basePath/response-data-404/index.yaml";
-    expect(() => Endpoint(endpointFile: File(indexFile)), matcher);
-
-    indexFile = "example/endpoint/index.yaml";
-    final endpoint = Endpoint(endpointFile: File(indexFile));
-    expect(endpoint.getResponseWriter(), isNotNull);
 
     // expect a non-null resposeWriter
   });
+
+  test('TestEndpointGetResponseWriter', () {
+    Matcher matcher;
+    String indexFile;
+    Endpoint endpoint;
+    String basePath = "example/errors/endpoint";
+
+    // no response for matched path
+    matcher = throwsA(isA<ErrorEndpointResponseIsUndefined>());
+    indexFile = "$basePath/not-response/index.yaml";
+    endpoint = Endpoint(endpointFile: File(indexFile));
+    expect(() => endpoint.getResponseWriter("/alpha"), matcher);
+
+    // responseFile not found
+    matcher = throwsA(isA<ErrorEndpointResponseFileNotFound>());
+    indexFile = "$basePath/response-data-404/index.yaml";
+    endpoint = Endpoint(endpointFile: File(indexFile));
+    expect(() => endpoint.getResponseWriter("/alpha"), matcher);
+
+    // valid responseWriter found
+    indexFile = "example/endpoint/index.yaml";
+    endpoint = Endpoint(endpointFile: File(indexFile));
+    expect(endpoint.getResponseWriter("/alpha"), isNotNull);
+  });
 }
-
-/*
-yaml will handle its own errors
-
-how do we handle bad yaml, for now it is a system failure
-as it is the only endpoint file available
-*/

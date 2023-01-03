@@ -22,7 +22,7 @@ class TestLogger {
 
       // mask severe at least
       if (record.level.value > Level.INFO.value) {
-        return;
+        //return;
       }
 
       print(message);

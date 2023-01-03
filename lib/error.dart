@@ -12,6 +12,8 @@ class ErrorResponseWriterEmptyHttpMessage extends Error {}
 
 class ErrorEndpointIndexFileIsEmpty extends Error {}
 
+class ErrorEndpointExpectedYamlList extends Error {}
+
 class ErrorEndpointExpectedYamlMap extends Error {}
 
 class ErrorEndpointResponseIsUndefined extends Error {}

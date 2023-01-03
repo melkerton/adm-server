@@ -24,9 +24,9 @@ class ResponseWriter {
     return ResponseWriter(responseFile: responseFile);
   }
 
-  List<int> getHttpResponseMessage() {
+  String getHttpResponseMessage() {
     // check non empty
-    final httpMessage = responseFile.readAsBytesSync();
+    final httpMessage = responseFile.readAsStringSync();
     if (httpMessage.isEmpty) {
       ResponseWriter.log
           .severe("HttpMessage cannot be empty ${responseFile.path}");
