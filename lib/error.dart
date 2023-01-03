@@ -7,3 +7,7 @@ class ErrorSourcesEndpointFileNotFound extends Error {}
 class ErrorServerNotBound extends Error {}
 
 class ErrorSourcesDirNotFound extends Error {}
+
+class ErrorResponseFilePathNotFound extends Error {}
+
+class ErrorResponseWriterEmptyHttpMessage extends Error {}

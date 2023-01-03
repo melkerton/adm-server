@@ -14,17 +14,7 @@ import 'package:xperi_dart_mock/sources.dart';
 
 main() {
   bool haveLog = false;
-  setUp(() {
-    if (haveLog == false) {
-      Logger.root.level = Level.ALL; // defaults to Level.INFO
-      Logger.root.onRecord.listen((record) {
-        print('${record.level.name}: ${record.time}: ${record.message}');
-      });
-
-      haveLog = true;
-      return;
-    }
-  });
+  setUp(() {});
 
   test('SourcesDirNotFound', () {
     final Matcher throwsError = throwsA(isA<ErrorSourcesDirNotFound>());

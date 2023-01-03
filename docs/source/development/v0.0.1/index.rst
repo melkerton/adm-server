@@ -70,10 +70,11 @@ Primary Objects
 Data Flow
 +++++++++
 
-#. Client asks Server for a Response.
+#. Client asks Server for a an HttpResponse (HttpRequest).
 #. Server asks Sources for an Endpoint.
 #. Server asks Endpoint for a Response
-#. Server asks Response to write data to Client.
+#. Server asks Response for an Http Message.
+#. Server gives Client the HttpResponse
 
 Http response for unmatched request:
 
@@ -100,10 +101,9 @@ Example
 Release Tests 
 ----------------------
 
-#. A matched response (200 Ok).
+#. Return the required default endpoint response (200 Ok).
 
 #. An unmatched response (452 Unmatched) [#authoratative]_.
-
 
 ----------------------
 References

@@ -2,17 +2,27 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:xperi_dart_mock/error.dart';
-import 'package:xperi_dart_mock/response_writers/response_writer.dart';
+import 'package:xperi_dart_mock/response_writer.dart';
 import 'package:yaml/yaml.dart';
 
+/// if no valid response is found a DefaultWriterResponse is returned
+///
+/// a default response must be defined in endpoint/index,yaml
+/// all others can be empty, helps in gradual building of endpoints
 class Endpoint {
   File endpointFile;
   YamlList? yamlList;
+  Logger log = Logger("Endpoint");
+  ResponseWriter? defaultResponseWriter;
 
   /// throws error on bad yaml
   Endpoint({required this.endpointFile}) {
-    final log = Logger("Endpoint");
+    if (defaultResponseWriter == null) {
+      buildDefaultResponseWriter();
+    }
+  }
 
+  void buildDefaultResponseWriter() {
     // first check is empty file
 
     final msgBase = endpointFile;
@@ -45,19 +55,14 @@ class Endpoint {
       log.severe(endpointFile.path);
       throw ErrorEndpointConfig();
     }
+
+    defaultResponseWriter = ResponseWriter.builder(yamlMap['resource']);
   }
 
-  /*
   ResponseWriter? getResponseWriter() {
-    // check each in list for match, but for now we pass back
-    // a default
-    /*
-      temorary condition
-      if is empty for sure no match
-      else bad config is GEFN
-    */
+    // check for matches
 
-    return ResponseWriter();
+    // if nne found return default
+    return defaultResponseWriter;
   }
-  */
 }

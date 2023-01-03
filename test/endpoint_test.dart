@@ -18,7 +18,7 @@ main() {
       return;
     }
   });
-  test('EndpointErrotConfig', () {
+  test('EndpointErrorConfig', () {
     Matcher matcher = throwsA(isA<ErrorEndpointConfig>());
     String indexFile;
     String basePath = "example/errors/endpoint";
