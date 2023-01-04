@@ -49,7 +49,6 @@ class Server {
         Server.log.info("Found Endpoint ${endpoint.baseName}.");
         final path = httpRequest.requestedUri.path;
         ResponseWriter? responseWriter = endpoint.getResponseWriter(path);
-        Server.log.fine("ResponseWriter? ${responseWriter != null}");
         await sendRaw(httpRequest, responseWriter);
       } else {
         await sendRaw(httpRequest, null);
@@ -63,7 +62,7 @@ class Server {
 
   Future<void> sendRaw(
       HttpRequest httpRequest, ResponseWriter? responseWriter) async {
-    Server.log.info("sendRaw 452 ${responseWriter == null}");
+    //Server.log.info("sendRaw 452 ${responseWriter == null}");
     final response = httpRequest.response;
 
     // detach socket so we can pass Http Message from a Writer

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:adm_server/sherpa.dart';
+import 'package:adm_server/sherpa/sherpa.dart';
 import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
 import 'package:adm_server/response_writer.dart';

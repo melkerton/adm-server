@@ -5,7 +5,7 @@ import 'dart:io';
 
 // local
 
-import 'package:adm_server/sherpa.dart';
+import 'package:adm_server/sherpa/sherpa.dart';
 import 'package:logging/logging.dart';
 import 'package:adm_server/endpoint.dart';
 
@@ -69,7 +69,6 @@ class Sources {
 
   bool sourcesDirExists() {
     if (sourcesDir.existsSync() == false) {
-      //Sherpa.sourcesDir(Sources.log, absSourcesDirPath);
       SherpaSourcesDirNotFound(absSourcesDirPath);
       return false;
     }
