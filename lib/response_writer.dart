@@ -31,6 +31,7 @@ class ResponseWriter {
       ResponseWriter.log
           .severe("HttpMessage cannot be empty ${responseFile.path}");
 
+      // log.setup
       throw ErrorResponseWriterEmptyHttpMessage();
     }
 

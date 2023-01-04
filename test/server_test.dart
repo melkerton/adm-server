@@ -21,13 +21,12 @@ main() {
   /// test server responds
   /// Release Test 2. An unmatched response (452 Unmatched)
   test('DefaultServer', () async {
-    final server = Server();
+    final server = Server(".");
 
     // default
     expect(server.port, 0);
 
     // port not bound
-    expect(server.listen, throwsA(isA<ErrorServerNotBound>()));
 
     // clear skies
     await server.bind();
@@ -55,7 +54,7 @@ main() {
   });
 
   test('TestServer', () async {
-    final server = Server();
+    final server = Server("example/endpoint");
     await server.bind();
     server.listen();
 

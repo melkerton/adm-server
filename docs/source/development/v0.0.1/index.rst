@@ -96,6 +96,16 @@ Example
     x-requested-uri: alpha
     ...
 
++++++++++++++++
+Build Strategy: 
++++++++++++++++
+
+How a user builds a set of mock data.
+
+Post installation simply starting the server will give instructions on what to do next. 
+
+e.g.
+ cd to desired directory, run adms, follow instructions
 
 ----------------------
 Release Tests 
@@ -104,6 +114,8 @@ Release Tests
 #. Return the required default endpoint response (200 Ok).
 
 #. An unmatched response (452 Unmatched) [#authoratative]_.
+
+
 
 ----------------------
 References

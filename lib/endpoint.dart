@@ -6,6 +6,8 @@ import 'package:adm_server/error.dart';
 import 'package:adm_server/response_writer.dart';
 import 'package:yaml/yaml.dart';
 
+import 'package:adm_server/extension.dart';
+
 /// if no valid response is found a DefaultWriterResponse is returned
 ///
 /// a default response must be defined in endpoint/index,yaml
@@ -39,8 +41,8 @@ class Endpoint {
     // load file contents
     final readYamlList = loadYaml(contents);
     if (readYamlList.runtimeType != YamlList) {
-      Endpoint.log.severe("$msgBase runtimeType != YamlList");
-      throw ErrorEndpointExpectedYamlList();
+      Endpoint.log.setup("$msgBase runtimeType != YamlList");
+      return;
     }
 
     yamlList = readYamlList;
@@ -58,6 +60,7 @@ class Endpoint {
     for (final YamlMap response in yamlList!) {
       if (response.containsKey('path')) {
         if (response.containsKey('response') == false) {
+          // log.setup
           throw ErrorEndpointResponseIsUndefined();
         }
 
@@ -65,6 +68,7 @@ class Endpoint {
           final responseFilePath = "$baseName/${response['response']}";
           final responseFile = File(responseFilePath);
           if (responseFile.existsSync() == false) {
+            // log.setup
             throw ErrorEndpointResponseFileNotFound();
           }
 

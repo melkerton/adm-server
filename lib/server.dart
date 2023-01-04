@@ -22,7 +22,7 @@ class Server {
 
   /// Default constructor
   Server(String sourcesDirPath) {
-    sources = Sources(sourcesDirPath: sourcesDirPath);
+    sources = Sources(sourcesDirPath);
   }
 
   Future<void> bind() async {
@@ -34,7 +34,7 @@ class Server {
     if (httpServer == null) {
       // needed? seems like an error to yourself
       Server.log.severe("Bind server before listen.");
-      throw ErrorServerNotBound();
+      throw Error();
     }
 
     await httpServer!.forEach((HttpRequest httpRequest) async {

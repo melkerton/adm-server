@@ -4,7 +4,7 @@ import 'package:adm_server/server.dart';
 
 void main(List<String> arguments) async {
   Logger.root.onRecord.listen((r) => LogRecordFormatter.info(r));
-  final server = Server();
+  final server = Server(".");
   await server.bind();
   server.listen();
 }
