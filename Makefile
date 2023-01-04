@@ -14,8 +14,8 @@ test-endpoint:
 test-endpoint-watch:
 	nodemon -x 'dart test test/endpoint_test.dart' -e 'dart'
 
-test-error-watch:
-	nodemon -x 'dart test test/error_test.dart' -e 'dart'
+test-sherpa-watch:
+	nodemon -x 'dart test test/sherpa_test.dart' -e 'dart'
 
 test-sources:
 	dart test test/sources_test.dart

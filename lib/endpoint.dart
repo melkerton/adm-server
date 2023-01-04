@@ -1,12 +1,10 @@
 import 'dart:io';
 
+import 'package:adm_server/sherpa.dart';
 import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
-import 'package:adm_server/error.dart';
 import 'package:adm_server/response_writer.dart';
 import 'package:yaml/yaml.dart';
-
-import 'package:adm_server/extension.dart';
 
 /// if no valid response is found a DefaultWriterResponse is returned
 ///
@@ -41,7 +39,7 @@ class Endpoint {
     // load file contents
     final readYamlList = loadYaml(contents);
     if (readYamlList.runtimeType != YamlList) {
-      Endpoint.log.setup("$msgBase runtimeType != YamlList");
+      Endpoint.log.config("$msgBase runtimeType != YamlList");
       return;
     }
 
@@ -53,23 +51,22 @@ class Endpoint {
       return null;
     }
 
-    Endpoint.log.info("Testing Endpoint Response");
-
     // only retruns
     // check for matches
     for (final YamlMap response in yamlList!) {
       if (response.containsKey('path')) {
         if (response.containsKey('response') == false) {
-          // log.setup
-          throw ErrorEndpointResponseIsUndefined();
+          SherpaEndpointResponseIsNull(endpointFile, response);
+          continue;
         }
 
+        Endpoint.log
+            .info("${response['path']} == ${requestedUri.substring(1)}");
         if (response['path'] == requestedUri.substring(1)) {
           final responseFilePath = "$baseName/${response['response']}";
           final responseFile = File(responseFilePath);
           if (responseFile.existsSync() == false) {
-            // log.setup
-            throw ErrorEndpointResponseFileNotFound();
+            SherpaEndpointResponseFileNotFound(responseFilePath);
           }
 
           return ResponseWriter(responseFile: responseFile);
@@ -81,23 +78,3 @@ class Endpoint {
     return null;
   }
 }
-
-/*
-  // originally buildDefaultResponseWriter
-  // no needed unitl support for default is required
-    // no response
-    if (yamlMap.containsKey('response') == false) {
-      Endpoint.log.severe("$msgBase undefined response");
-      throw ErrorEndpointResponseIsUndefined();
-    }
-
-
-    // response files exists?
-    final responseFilePath = [dirname(endpointFile.path), yamlMap['response']];
-
-    // only set a default if 
-    final responseFile = File(responseFilePath.join('/'));
-    if (responseFile.existsSync() == false) {
-      defaultResponseWriter = ResponseWriter.builder(responseFile);
-    }
-*/
