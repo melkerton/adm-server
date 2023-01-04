@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
-import 'package:xperi_dart_mock/endpoint.dart';
-import 'package:xperi_dart_mock/error.dart';
+import 'package:adm_server/endpoint.dart';
+import 'package:adm_server/error.dart';
 
 import 'logger.dart';
 

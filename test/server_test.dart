@@ -5,8 +5,8 @@
 import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 
-import 'package:xperi_dart_mock/error.dart';
-import 'package:xperi_dart_mock/xperi_dart_mock.dart';
+import 'package:adm_server/error.dart';
+import 'package:adm_server/server.dart';
 
 import 'logger.dart';
 

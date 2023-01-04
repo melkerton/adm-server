@@ -5,8 +5,8 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
-import 'package:xperi_dart_mock/error.dart';
-import 'package:xperi_dart_mock/sources.dart';
+import 'package:adm_server/error.dart';
+import 'package:adm_server/sources.dart';
 
 import 'logger.dart';
 

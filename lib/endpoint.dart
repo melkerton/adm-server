@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
-import 'package:xperi_dart_mock/error.dart';
-import 'package:xperi_dart_mock/response_writer.dart';
+import 'package:adm_server/error.dart';
+import 'package:adm_server/response_writer.dart';
 import 'package:yaml/yaml.dart';
 
 /// if no valid response is found a DefaultWriterResponse is returned

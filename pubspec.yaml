@@ -1,5 +1,5 @@
-name: xperi_dart_mock
-description: A sample command-line application.
+name: adm_server
+description: A Dart Mock Server is an experimental mock server with full Http Message response control.
 version: 0.0.1
 # homepage: https://www.example.com
 

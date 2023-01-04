@@ -7,7 +7,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:xperi_dart_mock/error.dart';
+import 'package:adm_server/error.dart';
 
 // default response writer
 // returns file contents as Http Message

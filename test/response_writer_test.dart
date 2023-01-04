@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:test/test.dart';
-import 'package:xperi_dart_mock/error.dart';
+import 'package:adm_server/error.dart';
 import 'logger.dart';
-import 'package:xperi_dart_mock/response_writer.dart';
+import 'package:adm_server/response_writer.dart';
 
 main() {
   setUp(() {

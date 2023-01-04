@@ -1,7 +1,10 @@
 # testing 
 test:
 	dart test
-	
+
+test-adms-watch:
+	nodemon -x 'dart run' -e 'dart'
+
 test-watch:
 	nodemon -x 'dart test' -e 'dart'
 
@@ -29,7 +32,7 @@ analyze:
 	dart analyze .
 
 compile:
-	dart compile
+	dart compile exe bin/adms.dart
 
 coverage:
 	rm -rf coverage
