@@ -18,12 +18,16 @@ class Server {
   HttpServer? httpServer;
 
   static Logger log = Logger("Server");
+  late Sources sources;
 
   /// Default constructor
-  Server();
+  Server(String sourcesDirPath) {
+    sources = Sources(sourcesDirPath: sourcesDirPath);
+  }
 
   Future<void> bind() async {
     httpServer = await HttpServer.bind("localhost", 7170);
+    log.info("Listening on http://localhost:${httpServer!.port}.");
   }
 
   void listen() async {
@@ -33,20 +37,18 @@ class Server {
       throw ErrorServerNotBound();
     }
 
-    final sourcesDir = Directory("example/endpoint");
-    Sources sources = Sources(sourcesDir: sourcesDir);
-
     await httpServer!.forEach((HttpRequest httpRequest) async {
+      // logging
       final message = "${httpRequest.method} ${httpRequest.requestedUri}";
       Server.log.info(message);
 
+      // find endpoint
       final endpoint = sources.getEndpoint();
-      Server.log.info("Endpoint? ${endpoint != null}");
-      ResponseWriter? responseWriter;
 
       if (endpoint != null) {
+        Server.log.info("Found Endpoint ${endpoint.baseName}.");
         final path = httpRequest.requestedUri.path;
-        responseWriter = endpoint.getResponseWriter(path);
+        ResponseWriter? responseWriter = endpoint.getResponseWriter(path);
         Server.log.fine("ResponseWriter? ${responseWriter != null}");
         await sendRaw(httpRequest, responseWriter);
       } else {
@@ -54,8 +56,8 @@ class Server {
       }
 
       await httpRequest.response.close();
-    }).catchError((error) {
-      print('caught');
+    }).catchError((e) {
+      Server.log.severe("Caught error ${e.runtimeType}");
     });
   }
 
@@ -87,3 +89,7 @@ class Server {
 }
 
 // [1] https://api.dart.dev/stable/2.18.6/dart-io/IOSink/close.html
+
+/*
+  fatal errors should exit without 
+*/

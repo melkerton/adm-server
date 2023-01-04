@@ -2,6 +2,7 @@
 
 // package
 
+import 'package:adm_server/log_record_formatter.dart';
 import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 

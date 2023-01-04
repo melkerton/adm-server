@@ -4,8 +4,6 @@ class ErrorSourcesEndpointFileNotFound extends Error {}
 
 class ErrorServerNotBound extends Error {}
 
-class ErrorSourcesDirNotFound extends Error {}
-
 class ErrorResponseFilePathNotFound extends Error {}
 
 class ErrorResponseWriterEmptyHttpMessage extends Error {}
@@ -19,3 +17,11 @@ class ErrorEndpointExpectedYamlMap extends Error {}
 class ErrorEndpointResponseIsUndefined extends Error {}
 
 class ErrorEndpointResponseFileNotFound extends Error {}
+
+// validated
+
+class FatalError extends Error {}
+
+class RecoverableError extends Error {}
+
+class ErrorSourcesDirNotFound extends FatalError {}

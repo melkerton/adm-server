@@ -14,6 +14,9 @@ test-endpoint:
 test-endpoint-watch:
 	nodemon -x 'dart test test/endpoint_test.dart' -e 'dart'
 
+test-error-watch:
+	nodemon -x 'dart test test/error_test.dart' -e 'dart'
+
 test-sources:
 	dart test test/sources_test.dart
 
@@ -32,7 +35,7 @@ analyze:
 	dart analyze .
 
 compile:
-	dart compile exe bin/adms.dart
+	dart compile exe bin/adm_server.dart
 
 coverage:
 	rm -rf coverage

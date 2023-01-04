@@ -9,23 +9,19 @@ import 'package:logging/logging.dart';
 import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/error.dart';
 
-/// need to do ErrorEndpointDirectoryNotFound check on init
-
 class Sources {
-  Directory sourcesDir;
+  String sourcesDirPath;
+  late Directory sourcesDir;
 
   static Logger log = Logger("Sources");
-  Sources({required this.sourcesDir});
-
-  static Sources connect(String arg) {
+  // use static connect
+  Sources({required this.sourcesDirPath}) {
     // make sure sourcesDir exists
-    final sourcesDir = Directory(arg);
+    final sourcesDir = Directory(sourcesDirPath);
     if (sourcesDir.existsSync() == false) {
       Sources.log.severe("$sourcesDir not found.");
       throw ErrorSourcesDirNotFound();
     }
-
-    return Sources(sourcesDir: sourcesDir);
   }
 
   Endpoint? getEndpoint() {
