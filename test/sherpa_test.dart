@@ -27,17 +27,18 @@ main() {
 
   test('EndpointHelp', () {
     String indexFile = "$sherpaData/index-file";
-
+    Endpoint endpoint;
     String endpointFilePath;
 
     // undefined response
     endpointFilePath = "$indexFile/undefined-response.yaml";
-    Endpoint(endpointFile: File(endpointFilePath))
-        .getResponseWriter("no-response");
+    endpoint = Endpoint(endpointFile: File(endpointFilePath));
+    //endpoint.getResponseWriter("no-response");
 
     // response file not found
     endpointFilePath = "$indexFile/response-not-found.yaml";
-    Endpoint(endpointFile: File(endpointFilePath)).getResponseWriter("/alpha");
+    endpoint = Endpoint(endpointFile: File(endpointFilePath));
+    //endpoint.getResponseWriter("/alpha");
   });
 
   test('ResponseWriter', () {

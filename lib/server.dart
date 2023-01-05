@@ -6,6 +6,7 @@ import 'dart:io';
 
 // local
 
+import 'package:adm_server/adms_request.dart';
 import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/system.dart';
 import 'package:logging/logging.dart';
@@ -84,10 +85,10 @@ class Server {
       await sendRaw(httpRequest, null);
       return;
     }
-
     Server.log.info("Found Endpoint ${endpoint.baseName}.");
-    final path = httpRequest.requestedUri.path;
-    ResponseWriter? responseWriter = endpoint.getResponseWriter(path);
+
+    final admsRequest = AdmsRequest(httpRequest);
+    ResponseWriter? responseWriter = endpoint.getResponseWriter(admsRequest);
     await sendRaw(httpRequest, responseWriter);
   }
 

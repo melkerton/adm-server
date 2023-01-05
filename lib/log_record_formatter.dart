@@ -5,8 +5,8 @@ class LogRecordFormatter {
   static void info(LogRecord record) {
     final timestampFormat = DateFormat('HH:MM:ss');
     String message = "${timestampFormat.format(record.time)} "
-        "${record.loggerName}\t"
-        "${record.level.name}\t"
+        "${record.loggerName}:"
+        "${record.level.name}:"
         "${record.message}";
 
     print(message);
