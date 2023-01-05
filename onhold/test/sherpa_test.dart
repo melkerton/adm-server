@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:adm_server/endpoint.dart';
-import 'package:adm_server/response_writer.dart';
+import 'package:adm_server/response_builder.dart';
 import 'package:adm_server/sources.dart';
 import "package:test/test.dart";
 import 'helpers.dart';

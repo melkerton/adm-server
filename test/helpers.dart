@@ -1,6 +1,4 @@
-import 'package:adm_server/log_record_formatter.dart';
 import 'package:adm_server/system.dart';
-import 'package:logging/logging.dart';
 
 class TestLogger {
   static bool recording = false;
@@ -11,7 +9,7 @@ class TestLogger {
     }
 
     TestLogger.recording = true;
-    Logger.root.onRecord.listen((r) => LogRecordFormatter.debug(r));
+    //Logger.root.onRecord.listen((r) => LogRecordFormatter.debug(r));
   }
 }
 

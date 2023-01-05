@@ -4,7 +4,7 @@ import 'package:shelf/shelf.dart';
 //import 'package:adm_server/sherpa.dart';
 import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
-import 'package:adm_server/response_writer.dart';
+import 'package:adm_server/response_builder.dart';
 import 'package:yaml/yaml.dart';
 
 /// all others can be empty, helps in gradual building of endpoints
@@ -13,8 +13,6 @@ class Endpoint {
   YamlList? yamlList;
 
   //static Logger log = Logger("Endpoint");
-
-  ResponseWriter? defaultResponseWriter;
 
   /// throws error on bad yaml
   Endpoint({required this.endpointFile}) {
@@ -46,39 +44,34 @@ class Endpoint {
     return readYamlList;
   }
 
-  ResponseWriter? getResponseWriter(Request request) {
+  ResponseBuilder? getResponseBuilder(Request request) {
     if (yamlList == null) {
       return null;
     }
 
     // strip leading '/'
     final requestedUri = request.requestedUri.path.substring(1);
-    print("ENDPOINT $requestedUri");
     // only returns
     // check for matches
     for (final YamlMap entry in yamlList!) {
       //Endpoint.log.info('Inspecting $response.');
-      print("ENDPOINT $entry");
       if (entry.containsKey('path')) {
-        print("ENDPOINT entry has path");
         if (entry.containsKey('response') == false) {
           //SherpaEndpointResponseIsNull(endpointFile, response);
           continue;
         }
-        print("ENDPOINT entry has response");
 
         if (entry['path'] == requestedUri) {
           final responseFilePath = "$dirPath/${entry['response']}";
           final responseFile = File(responseFilePath);
 
-          print("ENDPOINT $responseFilePath ?");
           if (responseFile.existsSync() == false) {
             //SherpaEndpointResponseFileNotFound(responseFile);
             continue;
           }
 
           //Endpoint.log.info('Building ResponseWriter.');
-          return ResponseWriter.builder(responseFile);
+          return ResponseBuilder(responseFile: responseFile);
         }
       }
     }

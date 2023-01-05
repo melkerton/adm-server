@@ -10,7 +10,7 @@ import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/system.dart';
 import 'package:logging/logging.dart';
-import 'package:adm_server/response_writer.dart';
+import 'package:adm_server/response_builder.dart';
 import 'package:adm_server/sources.dart';
 import 'package:shelf/shelf.dart';
 
@@ -44,21 +44,32 @@ class ServerShelf {
 
   Response handleRequest(Request request) {
     print("HandleRequest ${request.requestedUri}");
+
+    if (request.handlerPath == '/') {
+      return Response.ok('System is ready!\n');
+    }
+
     final endpoint = sources.getEndpoint();
 
     if (endpoint == null) {
       return Response.notFound('Endpoint is NULL\n');
     }
 
-    //ResponseWriter? responseWriter = endpoint.getResponseWriter(request);
+    ResponseBuilder? builder = endpoint.getResponseBuilder(request);
+
+    if (builder == null) {
+      return Response.notFound("Matching entry not found.\n");
+    }
+
+    print("HandleRequest valid endpoint");
+
+    // return builder.shelfResponse();
 
     /*
     Server.log.info("Found Endpoint ${endpoint.baseName}.");
 
-    await sendRaw(httpRequest, responseWriter);
     */
 
-    print("HandleRequest valid endpoint");
     return Response.ok('Request for "${request.url}"\n');
   }
 }

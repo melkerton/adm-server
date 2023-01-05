@@ -10,7 +10,7 @@ import 'package:adm_server/adms_request.dart';
 import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/system.dart';
 import 'package:logging/logging.dart';
-import 'package:adm_server/response_writer.dart';
+import 'package:adm_server/response_builder.dart';
 import 'package:adm_server/sources.dart';
 
 /// Handle mock requests

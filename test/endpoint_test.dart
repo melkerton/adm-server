@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:adm_server/response_writer.dart';
+import 'package:adm_server/response_builder.dart';
 import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
 import 'package:adm_server/endpoint.dart';
@@ -24,19 +24,19 @@ main() {
 
     // test indexInfo
 
-    // test found ResponseWriter
+    // test found ResponseBuilder
 
     Uri uri = Uri.parse("$uriPath/alpha");
     Request request = Request("GET", uri);
-    ResponseWriter? writer = endpoint.getResponseWriter(request);
+    ResponseBuilder? writer = endpoint.getResponseBuilder(request);
     expect(writer, isNotNull);
 
     uri = Uri.parse("$uriPath/alpha-missing");
     request = Request("GET", uri);
-    writer = endpoint.getResponseWriter(request);
+    writer = endpoint.getResponseBuilder(request);
 
     expect(writer, isNull);
 
-    // test not found ResponseWriter
+    // test not found ResponseBuilder
   });
 }

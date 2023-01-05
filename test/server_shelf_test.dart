@@ -34,11 +34,11 @@ main() {
     ServerShelf serverShelf = ServerShelf(system, sources);
 
     // trailing '/' required (path)
-    Uri uri = Uri.parse("http://127.0.0.1:4202/");
+    Uri uri = Uri.parse("http://127.0.0.1:4202/some-path");
     Request request = Request("GET", uri);
     Response response = serverShelf.handleRequest(request);
 
-    expect(response.statusCode, equals(404));
+    expect(response.statusCode, equals(200));
   });
 }
 
