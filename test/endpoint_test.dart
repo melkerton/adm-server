@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 import 'package:adm_server/endpoint.dart';
-import 'package:adm_server/error.dart';
 
 import 'logger.dart';
 

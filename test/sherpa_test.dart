@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:adm_server/endpoint.dart';
+import 'package:adm_server/response_writer.dart';
 import 'package:adm_server/sources.dart';
 import "package:test/test.dart";
 import 'logger.dart';
@@ -36,5 +37,12 @@ main() {
     // response file not found
     endpointFilePath = "$indexFile/response-not-found.yaml";
     Endpoint(endpointFile: File(endpointFilePath)).getResponseWriter("/alpha");
+  });
+
+  test('ResponseWriter', () {
+    final responseFile = File("$sherpaData/empty-response");
+    final writer = ResponseWriter(responseFile: responseFile);
+
+    writer.getHttpResponseMessage();
   });
 }
