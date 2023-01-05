@@ -12,17 +12,31 @@ import 'package:test/test.dart';
 
 main() {
   test('TestResponseFileReader', () async {
-    // no header
+    // body only
     List<String> lines = ['no-header'];
     ResponseFileReader reader = ResponseFileReader(lines);
     expect(reader.hasHeaders(), isFalse);
     expect(reader.body, equals('no-header'));
 
-    // has header
+    // header only + status code
     lines = ['x-adms-status-code: 201'];
     reader = ResponseFileReader(lines);
     expect(reader.hasHeaders(), isTrue);
     expect(reader.body, isNull);
+    expect(reader.headers.containsKey('x-adms-status-code'), isTrue);
+    expect(reader.statusCode, equals(201));
+
+    lines = ['Content-Type: app/text', '', 'body-test'];
+    reader = ResponseFileReader(lines);
+    expect(reader.hasHeaders(), isTrue);
+
+    expect(reader.body, isNotNull);
+    expect(reader.body!.contains('body'), isTrue);
+
+    expect(reader.headers.containsKey('Content-Type'), isTrue);
+    expect(reader.headers['Content-Type'], equals('app/text'));
+
+    expect(reader.statusCode, equals(200));
   });
 }
 

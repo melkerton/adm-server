@@ -17,12 +17,15 @@ class ResponseFileReader {
   }
 
   String? buildBody() {
-    if (bodyDelim < 0) {
-      return responseFileLines.join('\n');
+    if (hasHeaders()) {
+      if (bodyDelim > 0) {
+        responseFileLines.sublist(bodyDelim + 1).join('\n');
+      } else {
+        return null;
+      }
     }
 
-    responseFileLines.sublist(bodyDelim).join('\n');
-    return null;
+    return responseFileLines.join('\n');
   }
 
   Map<String, Object> buildHeaders() {
@@ -31,14 +34,9 @@ class ResponseFileReader {
     }
 
     List<String> headerLines = responseFileLines;
-    if (bodyDelim > -1) {
-      //headerLines = responseFileLines.sublist(0, bodyDelim - 1);
+    if (bodyDelim > 0) {
+      headerLines = responseFileLines.sublist(0, bodyDelim);
     }
-
-    /*
-      0 = first line ... not usefule
-      1 = seond line ... first possible for empty
-    */
 
     YamlMap headerMap = loadYaml(headerLines.join('\n'));
 
@@ -50,7 +48,8 @@ class ResponseFileReader {
     for (final header in headerMap.entries) {
       headers[header.key] = "${header.value}";
     }
-    return {};
+
+    return headers;
   }
 
   int getBodyDelim() {
