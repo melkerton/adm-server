@@ -9,8 +9,7 @@ import 'package:adm_server/system.dart';
 
 void main(List<String> arguments) async {
   // set Directory(""); to use current
-  String sourcesDirPath = Directory("test/data").absolute.path;
-  System system = System(sourcesDirPath);
+  System system = System(arguments);
   Sources sources = Sources(system);
 
   ServerShelf serverShelf = ServerShelf(system, sources);

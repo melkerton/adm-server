@@ -14,5 +14,5 @@ class TestLogger {
 }
 
 System validSystem() {
-  return System("test/data/_valid");
+  return System(["test/data/_valid"]);
 }

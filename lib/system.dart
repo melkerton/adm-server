@@ -6,13 +6,17 @@ import 'package:yaml/yaml.dart';
 
 class System {
   YamlMap? admsYamlConfig;
-  String sourcesDirPath;
+  String sourcesDirPath = "";
 
   // server settings
   int port = 0;
   String host = "localhost";
 
-  System(this.sourcesDirPath) {
+  System(List<String> arguments) {
+    if (arguments.isNotEmpty) {
+      sourcesDirPath = arguments[0];
+    }
+
     // clean path expect no trailing ps
     if (sourcesDirPath.endsWith(ps)) {
       sourcesDirPath =
