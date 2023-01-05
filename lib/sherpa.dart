@@ -25,6 +25,7 @@ class SherpaMessage {
     print('+' * repeat);
     print("Hint: ${message.hint}");
     print("Path: ${message.absPath}");
+    print("Self: $runtimeType");
     print("Description:\n");
 
     final tab = "  ";
@@ -37,8 +38,11 @@ class SherpaMessage {
   }
 }
 
-/// child clases
+/// child classes
+///
 class SherpaEndpointIndexFileNotFound extends SherpaMessage {
+  @override
+  String get hint => "Endpoint IndexFile is missing.";
   SherpaEndpointIndexFileNotFound(super.referenceFile) {
     sections.add(SherpaSection(
         "Create an index.yaml file", "touch $absPath/index.yaml"));
@@ -47,6 +51,8 @@ class SherpaEndpointIndexFileNotFound extends SherpaMessage {
 }
 
 class SherpaEndpointResponseFileNotFound extends SherpaMessage {
+  @override
+  String get hint => "Endpoint Response (data|pipe) file not found.";
   SherpaEndpointResponseFileNotFound(super.referenceFile) {
     sections.add(SherpaSection("Create file.", "touch $absPath"));
     render(this);
@@ -54,6 +60,8 @@ class SherpaEndpointResponseFileNotFound extends SherpaMessage {
 }
 
 class SherpaEndpointResponseIsNull extends SherpaMessage {
+  @override
+  String get hint => "Endpoint response not set in entry..";
   SherpaEndpointResponseIsNull(super.referenceFile, YamlMap entry) {
     sections.add(SherpaSection("Response is required.", "missing in $entry"));
     sections.add(SherpaSection("Add to entry.", "response: PATH-TO-RESPONSE"));
@@ -62,15 +70,10 @@ class SherpaEndpointResponseIsNull extends SherpaMessage {
 }
 
 class SherpaHttpResponseIsEmpty extends SherpaMessage {
+  @override
+  String get hint => "Http Response Message can't be empty.";
   SherpaHttpResponseIsEmpty(super.referenceFile) {
     sections.add(SherpaSection("Add a StartLine.", "HTTP/1.1 200 Ok\\n"));
-    render(this);
-  }
-}
-
-class SherpaSourcesDirNotFound extends SherpaMessage {
-  SherpaSourcesDirNotFound(super.referenceFile) {
-    sections.add(SherpaSection("Create directory.", absPath));
     render(this);
   }
 }

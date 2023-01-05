@@ -15,7 +15,7 @@ main() {
     Endpoint endpoint;
 
     // valid responseWriter found
-    indexFile = "example/endpoint/index.yaml";
+    indexFile = "example/index.yaml";
     endpoint = Endpoint(endpointFile: File(indexFile));
     expect(endpoint.getResponseWriter("/alpha"), isNotNull);
   });

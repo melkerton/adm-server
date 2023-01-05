@@ -23,15 +23,13 @@ class Sources {
     /// reports value being used or
     /// guidance on how to proceed
 
-    // where our index.yaml file is
+    /// where our index.yaml file is
+    /// this is the directory adms_server is called in
+    /// so it clearly exists (testing allow direct setting)
     sourcesDir = Directory(sourcesDirPath);
 
     // generate an absolute path for clarity of reporting
     absSourcesDirPath = sourcesDir.absolute.path;
-
-    if (sourcesDirExists() == false) {
-      return;
-    }
 
     // report found
     Sources.log.info("Sources($absSourcesDirPath).");
@@ -55,23 +53,10 @@ class Sources {
   }
 
   Endpoint? getEndpoint() {
-    if (sourcesDirExists() == false) {
-      return null;
-    }
-
     if (endpointFileExists() == false) {
       return null;
     }
 
     return Endpoint(endpointFile: endpointFile);
-  }
-
-  bool sourcesDirExists() {
-    if (sourcesDir.existsSync() == false) {
-      SherpaSourcesDirNotFound(sourcesDir);
-      return false;
-    }
-
-    return true;
   }
 }
