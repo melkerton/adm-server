@@ -4,7 +4,7 @@ import 'package:adm_server/system.dart';
 
 main() {
   test('TestSystem', () {
-    final system = System("test/data/_valid/");
+    final system = System(["test/data/_valid/"]);
 
     // expect sourcesDir w/o trailing ps
     expect(system.sourcesDirPath.endsWith(system.ps), isFalse);

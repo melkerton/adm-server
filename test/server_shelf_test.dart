@@ -40,7 +40,7 @@ main() {
   });
 
   test('TestServerShelfNullEndpoint', () {
-    System system = System("test/data/server/null-endpoint");
+    System system = System(["test/data/server/null-endpoint"]);
     Sources sources = Sources(system);
     ServerShelf serverShelf = ServerShelf(system, sources);
 
