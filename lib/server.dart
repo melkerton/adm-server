@@ -7,6 +7,7 @@ import 'dart:io';
 // local
 
 import 'package:adm_server/endpoint.dart';
+import 'package:adm_server/system.dart';
 import 'package:logging/logging.dart';
 import 'package:adm_server/response_writer.dart';
 import 'package:adm_server/sources.dart';
@@ -22,16 +23,18 @@ class Server {
 
   int portNumber = 7170;
 
+  System system = System();
+
   /// Default constructor
-  /// optional host and port from command line args
-  Server(String sourcesDirPath, {int? port}) {
-    portNumber = port ?? portNumber;
-    sources = Sources(sourcesDirPath);
+  Server() {
+    sources = Sources(system.sourcesDir.path);
   }
 
   Future<void> bind() async {
-    httpServer = await HttpServer.bind("localhost", portNumber);
-    log.info("Listening on http://localhost:${httpServer!.port}.");
+    httpServer = await HttpServer.bind(system.host, system.port);
+
+    // report port from httpServer, port=0 => random port
+    log.info("Listening on $uri.");
   }
 
   Future<void> close() async {
@@ -40,12 +43,16 @@ class Server {
     }
   }
 
-  void listen() async {
+  Uri? get uri {
     if (httpServer == null) {
-      // needed? seems like an error to yourself
-      Server.log.severe("Bind server before listen.");
-      throw Error();
+      return null;
     }
+
+    return Uri.parse("http://${system.host}:${httpServer!.port}");
+  }
+
+  void listen() async {
+    // the bind before listen call is fixed, test not needed
 
     await httpServer!.forEach((HttpRequest httpRequest) async {
       // logging
@@ -60,21 +67,27 @@ class Server {
       }
 
       await httpRequest.response.close();
-    }).catchError((e) {
+    });
+    /*
+    // what would cause this error?
+    .catchError((e) {
       Server.log.severe("Caught error ${e.runtimeType}");
     });
+    */
   }
 
   Future<void> handleRequest(HttpRequest httpRequest) async {
     final endpoint = sources.getEndpoint();
-    if (endpoint != null) {
-      Server.log.info("Found Endpoint ${endpoint.baseName}.");
-      final path = httpRequest.requestedUri.path;
-      ResponseWriter? responseWriter = endpoint.getResponseWriter(path);
-      await sendRaw(httpRequest, responseWriter);
-    } else {
+
+    if (endpoint == null) {
       await sendRaw(httpRequest, null);
+      return;
     }
+
+    Server.log.info("Found Endpoint ${endpoint.baseName}.");
+    final path = httpRequest.requestedUri.path;
+    ResponseWriter? responseWriter = endpoint.getResponseWriter(path);
+    await sendRaw(httpRequest, responseWriter);
   }
 
   Future<void> sendIndexInfo(HttpRequest httpRequest) async {
@@ -107,8 +120,6 @@ class Server {
     await socket.flush(); // [1]
     await socket.close();
   }
-
-  int get port => httpServer != null ? httpServer!.port : 0;
 }
 
 // [1] https://api.dart.dev/stable/2.18.6/dart-io/IOSink/close.html

@@ -15,9 +15,9 @@ class System {
   late Directory sourcesDir;
   YamlMap? admsYamlConfig;
 
-  System() {
+  System({String? sourcesDirPath}) {
     // get sourcesDir w/o training ps
-    var path = Directory("").absolute.path;
+    var path = Directory(sourcesDirPath ?? "").absolute.path;
     if (path.endsWith(ps)) {
       path = path.substring(0, path.lastIndexOf(ps));
     }

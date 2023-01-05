@@ -6,8 +6,7 @@ import 'package:adm_server/server.dart';
 
 void main(List<String> arguments) async {
   Logger.root.onRecord.listen((r) => LogRecordFormatter.info(r));
-  final sourcesDirPath = Directory("").absolute.path;
-  final server = Server(sourcesDirPath);
+  final server = Server();
   await server.bind();
   server.listen();
 }

@@ -2,8 +2,9 @@
 
 // package
 
-import 'package:adm_server/log_record_formatter.dart';
-import 'package:http/http.dart' as http;
+import 'dart:io';
+
+import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 import 'package:adm_server/server.dart';
@@ -14,9 +15,52 @@ import 'logger.dart';
 
 main() {
   setUp(() {
-    TestLogger.record();
+    //TestLogger.record();
   });
 
+  test('TestServer', () async {
+    Uri uri;
+    Response response;
+
+    // is listening?
+    final server = Server();
+    await server.bind();
+    server.listen();
+
+    /// test initialization
+    // get current server uri
+    expect(server.uri, isNotNull);
+
+    // make sure uri is as expected
+    uri = Uri.parse("http://127.0.0.1:4202");
+    expect(server.uri, equals(uri));
+
+    /// test responses path = '/'
+    response = await Client().get(uri);
+
+    // response should be 200 and contain ADMS
+    expect(response.statusCode, equals(200));
+    expect(response.body.contains('Welcome to ADM Server'), isTrue);
+
+    /// test responses path = 'alpha'
+    uri = Uri.parse("${server.uri}/alpha");
+    response = await Client().get(uri);
+
+    expect(response.statusCode, equals(200));
+    expect(response.body.contains('Alpha'), isTrue);
+
+    /// test responses path = 'no-match'
+    uri = Uri.parse("${server.uri}/no-match");
+    response = await Client().get(uri);
+
+    expect(response.statusCode, equals(452));
+    expect(response.body, isEmpty);
+
+    // close the server
+    server.close();
+  });
+
+  /*
   /// test server responds
   /// Release Test 2. An unmatched response (452 Unmatched)
   test('DefaultServer', () async {
@@ -66,4 +110,5 @@ main() {
     // cleanup
     await server.httpServer!.close();
   });
+  */
 }

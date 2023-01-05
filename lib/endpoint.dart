@@ -50,8 +50,7 @@ class Endpoint {
       return null;
     }
 
-    print(requestedUri);
-    // only retruns
+    // only returns
     // check for matches
     for (final YamlMap response in yamlList!) {
       Endpoint.log.info('Inspecting $response.');
