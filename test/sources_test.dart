@@ -17,7 +17,27 @@ main() {
     TestLogger.record();
   });
 
-  test('SourcesDirNotFound', () {
+  test('TestSources', () {
+    Sources sources;
+    String sourcesTestPath = "test/data/sources";
+
+    /// test no sources
+    sources = Sources('$sourcesTestPath/doesn-exist');
+    expect(sources.sourcesDir.existsSync(), isFalse);
+
+    /// test no index.yaml
+    sources = Sources("$sourcesTestPath/no-index");
+    expect(sources.endpointFile.existsSync(), isFalse);
+
+    /// test sourcesDir found and path has no trailing PS and exists
+    sources = Sources('$sourcesTestPath/');
+    expect(sources.absSourcesDirPath.endsWith('/'), isFalse);
+    expect(sources.sourcesDir.existsSync(), isTrue);
+
+    /// test endpointFile exists
+    sources = Sources('$sourcesTestPath/valid');
+    expect(sources.endpointFile.existsSync(), isTrue);
+
     /*
     String sourcesDir;
 

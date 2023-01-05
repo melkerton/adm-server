@@ -23,7 +23,7 @@ main() {
     Response response;
 
     // is listening?
-    final server = Server();
+    final server = Server(sourcesDirPath: 'test/data/server');
     await server.bind();
     server.listen();
 
@@ -55,6 +55,21 @@ main() {
 
     expect(response.statusCode, equals(452));
     expect(response.body, isEmpty);
+
+    // close the server
+    server.close();
+  });
+
+  test('TestServerMissingEndpoint', () async {
+    // is listening?
+    final server = Server(sourcesDirPath: 'test/data/server/missing-endpoint');
+    await server.bind();
+    server.listen();
+
+    final uri = Uri.parse("${server.uri}/alpha");
+    final response = await Client().get(uri);
+
+    expect(response.statusCode, equals(452));
 
     // close the server
     server.close();

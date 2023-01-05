@@ -1,4 +1,4 @@
-@Skip("noisy")
+@Skip("Sherpa")
 import 'dart:io';
 
 import 'package:adm_server/endpoint.dart';

@@ -23,10 +23,11 @@ class Server {
 
   int portNumber = 7170;
 
-  System system = System();
+  late System system;
 
   /// Default constructor
-  Server() {
+  Server({String? sourcesDirPath}) {
+    system = System(sourcesDirPath: sourcesDirPath);
     sources = Sources(system.sourcesDir.path);
   }
 
@@ -97,22 +98,21 @@ class Server {
 
   Future<void> sendRaw(
       HttpRequest httpRequest, ResponseWriter? responseWriter) async {
-    //Server.log.info("sendRaw 452 ${responseWriter == null}");
     final response = httpRequest.response;
 
     // detach socket so we can pass Http Message from a Writer
     final socket = await response.detachSocket(writeHeaders: false);
 
-    if (responseWriter != null) {
-      final httpMessage =
-          await responseWriter.getHttpResponseMessage(httpRequest: httpRequest);
-      socket.write(httpMessage);
-    } else {
+    if (responseWriter == null) {
       // no match found
       socket.write("HTTP/${httpRequest.protocolVersion} 452 Unmatched\n");
 
       final path = httpRequest.requestedUri.path;
       socket.write("x-requested-uri: ${path.substring(1)}\n");
+    } else {
+      final httpMessage =
+          await responseWriter.getHttpResponseMessage(httpRequest: httpRequest);
+      socket.write(httpMessage);
     }
 
     socket.write("\n");

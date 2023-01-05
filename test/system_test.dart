@@ -3,12 +3,12 @@ import 'package:test/test.dart';
 import 'package:adm_server/system.dart';
 
 main() {
-  test('TestSystemDefault', () {
-    // Expects APP_ROOT/adms.yaml
-    final system = System();
+  test('TestSystem', () {
+    final system = System(sourcesDirPath: "test/data/_valid");
 
     // expect sourcesDir w/o trailing ps
     expect(system.sourcesDir.path.endsWith(system.ps), isFalse);
+    expect(system.absSourcesDirPath.endsWith(system.ps), isFalse);
 
     // expect adms.yaml to contain valid yaml
     expect(system.admsYamlConfig, isNotNull);

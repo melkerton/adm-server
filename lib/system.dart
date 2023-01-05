@@ -12,6 +12,7 @@ class System {
   int port = 0;
   String host = "localhost";
 
+  late String absSourcesDirPath;
   late Directory sourcesDir;
   YamlMap? admsYamlConfig;
 
@@ -19,8 +20,12 @@ class System {
     // get sourcesDir w/o training ps
     var path = Directory(sourcesDirPath ?? "").absolute.path;
     if (path.endsWith(ps)) {
+      // coverage expects this covered?
       path = path.substring(0, path.lastIndexOf(ps));
     }
+
+    absSourcesDirPath = path;
+    // path state is tested via sourcesDir.path
     sourcesDir = Directory(path);
 
     loadConfig();

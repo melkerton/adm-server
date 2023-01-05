@@ -16,9 +16,16 @@ class SherpaMessage {
 
   String get absPath => referenceFile.absolute.path;
 
+  bool enabled = true;
+
   List<SherpaSection> sections = [];
   SherpaMessage(this.referenceFile);
+
   void render(SherpaMessage message) {
+    if (enabled == false) {
+      print("Sherpa Disabled");
+      return;
+    }
     int repeat = 42;
 
     // todo find longest line for wrappers
