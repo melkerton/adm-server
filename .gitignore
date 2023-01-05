@@ -8,3 +8,4 @@ node_modules
 .env
 pub.html
 coverage
+bin/adm_server.exe

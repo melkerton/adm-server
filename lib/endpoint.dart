@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'package:shelf/shelf.dart';
 
-//import 'package:adm_server/sherpa.dart';
 import 'package:path/path.dart' show dirname;
-import 'package:logging/logging.dart';
 import 'package:adm_server/response_builder.dart';
 import 'package:yaml/yaml.dart';
 

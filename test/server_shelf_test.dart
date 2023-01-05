@@ -2,7 +2,6 @@ import 'package:adm_server/server_shelf.dart';
 import 'package:adm_server/sources.dart';
 import 'package:adm_server/system.dart';
 import 'package:shelf/shelf.dart';
-//import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 import 'helpers.dart';
@@ -23,23 +22,23 @@ main() {
     // trailing '/' required (path)
     Uri uri = Uri.parse("http://127.0.0.1:4202/");
     Request request = Request("GET", uri);
-    Response response = serverShelf.handleRequest(request);
+    Response response = await serverShelf.handleRequest(request);
     expect(response.statusCode, equals(200));
 
     // found match
     uri = Uri.parse("http://127.0.0.1:4202/alpha");
     request = Request("GET", uri);
-    response = serverShelf.handleRequest(request);
+    response = await serverShelf.handleRequest(request);
     expect(response.statusCode, equals(200));
 
     // no match found
     uri = Uri.parse("http://127.0.0.1:4202/not-found");
     request = Request("GET", uri);
-    response = serverShelf.handleRequest(request);
+    response = await serverShelf.handleRequest(request);
     expect(response.statusCode, equals(404));
   });
 
-  test('TestServerShelfNullEndpoint', () {
+  test('TestServerShelfNullEndpoint', () async {
     System system = System(["test/data/server/null-endpoint"]);
     Sources sources = Sources(system);
     ServerShelf serverShelf = ServerShelf(system, sources);
@@ -47,7 +46,7 @@ main() {
     // trailing '/' required (path)
     Uri uri = Uri.parse("http://127.0.0.1:4202/some-path");
     Request request = Request("GET", uri);
-    Response response = serverShelf.handleRequest(request);
+    Response response = await serverShelf.handleRequest(request);
 
     expect(response.statusCode, equals(404));
   });
