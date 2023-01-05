@@ -1,22 +1,44 @@
 import 'package:adm_server/server_shelf.dart';
 import 'package:adm_server/sources.dart';
 import 'package:adm_server/system.dart';
+import 'package:shelf/shelf.dart';
+//import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 import 'helpers.dart';
 
 main() {
-  test('TestServerShelf', () {
+  test('TestServerShelfValid', () async {
     System system = validSystem();
     Sources sources = Sources(system);
 
     ServerShelf serverShelf = ServerShelf(system, sources);
 
-    //Sources sources = Sources();
-    //ServerShelf serverShelf = ServerShelf(sources);
+    // check accepting requests
+    serverShelf.start().then((_) {
+      expect(serverShelf.httpServer, isNotNull);
+      serverShelf.stop();
+    });
 
-    // Responses need to include
-    // status
+    // trailing '/' required (path)
+    Uri uri = Uri.parse("http://127.0.0.1:4202/");
+    Request request = Request("GET", uri);
+    Response response = serverShelf.handleRequest(request);
+
+    expect(response.statusCode, equals(200));
+  });
+
+  test('TestServerShelfNullEndpoint', () {
+    System system = System("test/data/server/null-endpoint");
+    Sources sources = Sources(system);
+    ServerShelf serverShelf = ServerShelf(system, sources);
+
+    // trailing '/' required (path)
+    Uri uri = Uri.parse("http://127.0.0.1:4202/");
+    Request request = Request("GET", uri);
+    Response response = serverShelf.handleRequest(request);
+
+    expect(response.statusCode, equals(404));
   });
 }
 

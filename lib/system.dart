@@ -2,12 +2,10 @@
 import 'dart:io';
 
 // package
-import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
 
 class System {
   YamlMap? admsYamlConfig;
-  Logger log = Logger('Config');
   String sourcesDirPath;
 
   // server settings

@@ -2,16 +2,12 @@
 import 'dart:io';
 
 // package
-import 'package:adm_server/sherpa.dart';
 import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/system.dart';
-import 'package:logging/logging.dart';
 
 // local
 
 class Sources {
-  static Logger log = Logger("Sources");
-
   System system;
 
   /// Default constructor
@@ -25,7 +21,7 @@ class Sources {
     /// so it clearly exists (testing allow direct setting)
 
     // report found
-    Sources.log.info("Sources(${system.absSourcesDirPath}).");
+    //Sources.log.info("Sources(${system.absSourcesDirPath}).");
   }
 
   bool endpointFileExists(File endpointFile) {

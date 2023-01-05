@@ -3,6 +3,7 @@ import 'dart:io';
 // dart
 
 // package
+import 'package:shelf/shelf_io.dart' as shelf_io;
 
 // local
 
@@ -17,132 +18,47 @@ import 'package:shelf/shelf.dart';
 ///
 ///
 class ServerShelf {
-  static Logger log = Logger("Server");
-
-  Handler? handler;
+  //static Logger log = Logger("Server");
 
   Sources sources;
   System system;
 
+  HttpServer? httpServer;
+
   /// Default constructor
   ServerShelf(this.system, this.sources);
 
-  void start() {
-    handler = Pipeline().addHandler(_handleRequest);
+  Future<void> start() async {
+    Handler handler = Pipeline().addHandler(handleRequest);
+    httpServer = await shelf_io.serve(handler, system.host, system.port);
+    print('Serving at http://${httpServer!.address.host}:${httpServer!.port}');
   }
 
-  Response _handleRequest(Request request) {
+  Future<void> stop() async {
+    if (httpServer == null) {
+      return;
+    }
+
+    await httpServer!.close();
+  }
+
+  Response handleRequest(Request request) {
+    print("HandleRequest ${request.requestedUri}");
     final endpoint = sources.getEndpoint();
 
     if (endpoint == null) {
-      return Response.ok('Endpoint is NULL');
+      return Response.notFound('Endpoint is NULL\n');
     }
 
-    ResponseWriter? responseWriter = endpoint.getResponseWriter(request);
+    //ResponseWriter? responseWriter = endpoint.getResponseWriter(request);
 
     /*
     Server.log.info("Found Endpoint ${endpoint.baseName}.");
 
     await sendRaw(httpRequest, responseWriter);
     */
-    return Response.ok('Request for "${request.url}"');
+
+    print("HandleRequest valid endpoint");
+    return Response.ok('Request for "${request.url}"\n');
   }
-
-  /*
-  Future<void> bind() async {
-    httpServer = await HttpServer.bind(system.host, system.port);
-
-    // report port from httpServer, port=0 => random port
-    log.info("Listening on $uri.");
-  }
-
-  Future<void> close() async {
-    if (httpServer != null) {
-      await httpServer!.close();
-    }
-  }
-
-  Uri? get uri {
-    if (httpServer == null) {
-      return null;
-    }
-
-    return Uri.parse("http://${system.host}:${httpServer!.port}");
-  }
-
-  void listen() async {
-    // the bind before listen call is fixed, test not needed
-
-    await httpServer!.forEach((HttpRequest httpRequest) async {
-      // logging
-      final message = "${httpRequest.method} ${httpRequest.requestedUri}";
-      ServerShelf.log.info(message);
-
-      /// root call, display info
-      if (httpRequest.requestedUri.path == '/') {
-        sendIndexInfo(httpRequest);
-      } else {
-        handleRequest(httpRequest);
-      }
-
-      await httpRequest.response.close();
-    });
-    /*
-    // what would cause this error?
-    .catchError((e) {
-      Server.log.severe("Caught error ${e.runtimeType}");
-    });
-    */
-  }
-
-  Future<void> handleRequest(HttpRequest httpRequest) async {
-    final endpoint = sources.getEndpoint();
-
-    if (endpoint == null) {
-      await sendRaw(httpRequest, null);
-      return;
-    }
-    ServerShelf.log.info("Found Endpoint ${endpoint.baseName}.");
-
-    final admsRequest = AdmsRequest(httpRequest);
-    ResponseWriter? responseWriter = endpoint.getResponseWriter(admsRequest);
-    await sendRaw(httpRequest, responseWriter);
-  }
-
-  Future<void> sendIndexInfo(HttpRequest httpRequest) async {
-    httpRequest.response.write("Welcome to ADM Server!\n"
-        "\nAn experimental mock server written in Dart.\n");
-  }
-
-  Future<void> sendRaw(
-      HttpRequest httpRequest, ResponseWriter? responseWriter) async {
-    final response = httpRequest.response;
-
-    // detach socket so we can pass Http Message from a Writer
-    final socket = await response.detachSocket(writeHeaders: false);
-
-    if (responseWriter == null) {
-      // no match found
-      socket.write("HTTP/${httpRequest.protocolVersion} 452 Unmatched\n");
-
-      final path = httpRequest.requestedUri.path;
-      socket.write("x-requested-uri: ${path.substring(1)}\n");
-    } else {
-      final httpMessage =
-          await responseWriter.getHttpResponseMessage(httpRequest: httpRequest);
-      socket.write(httpMessage);
-    }
-
-    socket.write("\n");
-
-    await socket.flush(); // [1]
-    await socket.close();
-  }
-  */
 }
-
-// [1] https://api.dart.dev/stable/2.18.6/dart-io/IOSink/close.html
-
-/*
-  fatal errors should exit without 
-*/

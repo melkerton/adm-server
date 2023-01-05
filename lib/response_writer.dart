@@ -3,7 +3,7 @@ import 'dart:io';
 
 // package
 //import 'package:adm_server/pipe_response_writer.dart';
-import 'package:adm_server/sherpa.dart';
+//import 'package:adm_server/sherpa.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
@@ -36,7 +36,7 @@ class ResponseWriter {
     // check non empty
     final httpMessage = responseFile.readAsStringSync();
     if (httpMessage.isEmpty) {
-      SherpaHttpResponseIsEmpty(responseFile);
+      //SherpaHttpResponseIsEmpty(responseFile);
       return null;
     }
 

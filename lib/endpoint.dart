@@ -1,49 +1,49 @@
 import 'dart:io';
 import 'package:shelf/shelf.dart';
 
-import 'package:adm_server/sherpa.dart';
+//import 'package:adm_server/sherpa.dart';
 import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
 import 'package:adm_server/response_writer.dart';
 import 'package:yaml/yaml.dart';
 
-/// if no valid response is found a DefaultWriterResponse is returned
-///
-/// a default response must be defined in endpoint/index,yaml
 /// all others can be empty, helps in gradual building of endpoints
 class Endpoint {
   File endpointFile;
-  String baseName = "";
   YamlList? yamlList;
 
-  static Logger log = Logger("Endpoint");
+  //static Logger log = Logger("Endpoint");
 
   ResponseWriter? defaultResponseWriter;
 
   /// throws error on bad yaml
   Endpoint({required this.endpointFile}) {
-    // ensures is YamlList
-    baseName = dirname(endpointFile.path);
-    validateEndpoint();
+    // load yaml list from index.yaml
+    yamlList = loadYamlList();
   }
 
-  void validateEndpoint() {
+  // getters
+  String get dirPath => dirname(endpointFile.absolute.path);
+  bool get isValid => yamlList != null;
+
+  // methods
+
+  YamlList? loadYamlList() {
     // first check is empty file
-    final msgBase = endpointFile;
     String contents = endpointFile.readAsStringSync();
 
     if (contents.isEmpty) {
-      return;
+      return null;
     }
 
     // load file contents
     final readYamlList = loadYaml(contents);
     if (readYamlList.runtimeType != YamlList) {
-      Endpoint.log.config("$msgBase runtimeType != YamlList");
-      return;
+      //Endpoint.log.config("$msgBase runtimeType != YamlList");
+      return null;
     }
 
-    yamlList = readYamlList;
+    return readYamlList;
   }
 
   ResponseWriter? getResponseWriter(Request request) {
@@ -51,34 +51,38 @@ class Endpoint {
       return null;
     }
 
-    final requestedUri = request.requestedUri.path;
-
+    // strip leading '/'
+    final requestedUri = request.requestedUri.path.substring(1);
+    print("ENDPOINT $requestedUri");
     // only returns
     // check for matches
-    for (final YamlMap response in yamlList!) {
-      Endpoint.log.info('Inspecting $response.');
-
-      if (response.containsKey('path')) {
-        if (response.containsKey('response') == false) {
-          SherpaEndpointResponseIsNull(endpointFile, response);
+    for (final YamlMap entry in yamlList!) {
+      //Endpoint.log.info('Inspecting $response.');
+      print("ENDPOINT $entry");
+      if (entry.containsKey('path')) {
+        print("ENDPOINT entry has path");
+        if (entry.containsKey('response') == false) {
+          //SherpaEndpointResponseIsNull(endpointFile, response);
           continue;
         }
+        print("ENDPOINT entry has response");
 
-        if (response['path'] == requestedUri.substring(1)) {
-          final responseFilePath = "$baseName/${response['response']}";
+        if (entry['path'] == requestedUri) {
+          final responseFilePath = "$dirPath/${entry['response']}";
           final responseFile = File(responseFilePath);
+
+          print("ENDPOINT $responseFilePath ?");
           if (responseFile.existsSync() == false) {
-            SherpaEndpointResponseFileNotFound(responseFile);
+            //SherpaEndpointResponseFileNotFound(responseFile);
             continue;
           }
 
-          Endpoint.log.info('Building ResponseWriter.');
+          //Endpoint.log.info('Building ResponseWriter.');
           return ResponseWriter.builder(responseFile);
         }
       }
     }
 
-    log.info("Endpoint did not find a ResponseWriter");
     // only return if path match found
     return null;
   }
