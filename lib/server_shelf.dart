@@ -45,7 +45,7 @@ class ServerShelf {
   Response handleRequest(Request request) {
     print("HandleRequest ${request.requestedUri}");
 
-    if (request.handlerPath == '/') {
+    if (request.url.path.isEmpty) {
       return Response.ok('System is ready!\n');
     }
 

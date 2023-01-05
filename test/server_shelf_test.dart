@@ -24,8 +24,19 @@ main() {
     Uri uri = Uri.parse("http://127.0.0.1:4202/");
     Request request = Request("GET", uri);
     Response response = serverShelf.handleRequest(request);
-
     expect(response.statusCode, equals(200));
+
+    // found match
+    uri = Uri.parse("http://127.0.0.1:4202/alpha");
+    request = Request("GET", uri);
+    response = serverShelf.handleRequest(request);
+    expect(response.statusCode, equals(200));
+
+    // no match found
+    uri = Uri.parse("http://127.0.0.1:4202/not-found");
+    request = Request("GET", uri);
+    response = serverShelf.handleRequest(request);
+    expect(response.statusCode, equals(404));
   });
 
   test('TestServerShelfNullEndpoint', () {
@@ -38,7 +49,7 @@ main() {
     Request request = Request("GET", uri);
     Response response = serverShelf.handleRequest(request);
 
-    expect(response.statusCode, equals(200));
+    expect(response.statusCode, equals(404));
   });
 }
 
