@@ -32,7 +32,7 @@ class PipeResponseWriter extends ResponseWriter {
 
     List<String> httpMessage = [];
 
-    // REVIEW THIS
+    // REVIEW THIS (copy+paste)
     try {
       await for (var line in lines) {
         httpMessage.add(line);

@@ -9,27 +9,10 @@ test-watch:
 test-adms-watch:
 	nodemon -x 'dart run' -e 'dart'
 
+# test by test(NAME, () {})
+test-specific:
+	nodemon -x "dart test -N $(N)" -e 'dart'
 
-test-endpoint-watch:
-	nodemon -x 'dart test test/endpoint_test.dart' -e 'dart'
-
-test-example-watch:
-	cd example && nodemon -x 'dart run ../bin/adm_server.dart' -w '../' -e 'dart'
-
-
-test-pipe-response-watch:
-	nodemon -x 'dart test test/pipe_response_writer_test.dart' -e 'dart'
-
-test-server-watch:
-	nodemon -x 'dart test test/server_test.dart' -e 'dart'
-
-test-sherpa-watch:
-	nodemon -x 'dart test test/sherpa_test.dart' -e 'dart'
-
-test-sources-watch:
-	nodemon -x 'dart test test/sources_test.dart' -e 'dart'
-
-# 
 docs-serve:
 	dtach -n docs-serve.d node docs-serve.js
 

@@ -1,5 +1,9 @@
 - response: default.data
   path: alpha
 
+- path: alpha?id=1
+  response: samples/alpha.1
+
 - path: beta
   response: pipe-beta.py
+

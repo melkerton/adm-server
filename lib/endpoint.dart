@@ -50,6 +50,7 @@ class Endpoint {
       return null;
     }
 
+    print(requestedUri);
     // only retruns
     // check for matches
     for (final YamlMap response in yamlList!) {
@@ -75,6 +76,7 @@ class Endpoint {
       }
     }
 
+    log.info("Endpoint did not find a ResponseWriter");
     // only return if path match found
     return null;
   }

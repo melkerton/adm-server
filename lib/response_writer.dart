@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:adm_server/pipe_response_writer.dart';
 import 'package:adm_server/sherpa.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart';
 
 // local
 
@@ -18,10 +19,16 @@ class ResponseWriter {
 
   static ResponseWriter builder(File responseFile) {
     // check if is *.pipe
-    if (responseFile.path.startsWith('pipe-')) {
+
+    // responseFile.path may be absolute
+    // so test basename starts with
+    final baseName = basename(responseFile.path);
+    if (baseName.startsWith('pipe-')) {
+      log.info("Building PipeResponse.");
       return PipeResponseWriter(responseFile: responseFile);
     }
 
+    log.info("Building Response.");
     return ResponseWriter(responseFile: responseFile);
   }
 

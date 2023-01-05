@@ -34,6 +34,12 @@ class Server {
     log.info("Listening on http://localhost:${httpServer!.port}.");
   }
 
+  Future<void> close() async {
+    if (httpServer != null) {
+      await httpServer!.close();
+    }
+  }
+
   void listen() async {
     if (httpServer == null) {
       // needed? seems like an error to yourself
