@@ -2,6 +2,9 @@
 test:
 	dart test
 
+test-example-watch:
+	cd example && nodemon -x 'dart run ../bin/adm_server.dart' -w '../' -e 'dart'
+
 test-adms-watch:
 	nodemon -x 'dart run' -e 'dart'
 

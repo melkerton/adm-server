@@ -36,7 +36,7 @@ main() {
 
     // make a request
     final client = http.Client();
-    final uri = Uri.parse("http://localhost:${server.port}");
+    final uri = Uri.parse("http://localhost:${server.port}/no-path");
     final response = await client.get(uri);
 
     // check we get a 452 response with correct protocolVersion
@@ -46,7 +46,7 @@ main() {
     // check x-requested-uri is set and correct
     expect(response.headers.containsKey('x-requested-uri'), isTrue);
 
-    expect(response.headers['x-requested-uri'], equals(''));
+    expect(response.headers['x-requested-uri'], equals('no-path'));
 
     // close the thing
     await server.httpServer!.close();

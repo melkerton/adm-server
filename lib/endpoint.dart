@@ -54,14 +54,14 @@ class Endpoint {
     // only retruns
     // check for matches
     for (final YamlMap response in yamlList!) {
+      Endpoint.log.info('Inspecting $response.');
+
       if (response.containsKey('path')) {
         if (response.containsKey('response') == false) {
           SherpaEndpointResponseIsNull(endpointFile, response);
           continue;
         }
 
-        Endpoint.log
-            .info("${response['path']} == ${requestedUri.substring(1)}");
         if (response['path'] == requestedUri.substring(1)) {
           final responseFilePath = "$baseName/${response['response']}";
           final responseFile = File(responseFilePath);

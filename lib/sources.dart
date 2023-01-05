@@ -31,6 +31,12 @@ class Sources {
     // generate an absolute path for clarity of reporting
     absSourcesDirPath = sourcesDir.absolute.path;
 
+    // strip trailing
+    if (absSourcesDirPath.endsWith('/')) {
+      absSourcesDirPath =
+          absSourcesDirPath.substring(0, absSourcesDirPath.length - 1);
+    }
+
     // report found
     Sources.log.info("Sources($absSourcesDirPath).");
 

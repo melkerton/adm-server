@@ -11,10 +11,3 @@ main() {
 
   test('ResponseWriterEmptyHttpMessage', () {});
 }
-/*
-Checks are performed when Server writes the response
-
-HttpMessage checks
-contains a non-empty line 
-and ends with  newline
-*/

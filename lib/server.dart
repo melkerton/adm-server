@@ -6,6 +6,7 @@ import 'dart:io';
 
 // local
 
+import 'package:adm_server/endpoint.dart';
 import 'package:logging/logging.dart';
 import 'package:adm_server/response_writer.dart';
 import 'package:adm_server/sources.dart';
@@ -41,22 +42,34 @@ class Server {
       final message = "${httpRequest.method} ${httpRequest.requestedUri}";
       Server.log.info(message);
 
-      // find endpoint
-      final endpoint = sources.getEndpoint();
-
-      if (endpoint != null) {
-        Server.log.info("Found Endpoint ${endpoint.baseName}.");
-        final path = httpRequest.requestedUri.path;
-        ResponseWriter? responseWriter = endpoint.getResponseWriter(path);
-        await sendRaw(httpRequest, responseWriter);
+      /// root call, display info
+      if (httpRequest.requestedUri.path == '/') {
+        sendIndexInfo(httpRequest);
       } else {
-        await sendRaw(httpRequest, null);
+        handleRequest(httpRequest);
       }
 
       await httpRequest.response.close();
     }).catchError((e) {
       Server.log.severe("Caught error ${e.runtimeType}");
     });
+  }
+
+  Future<void> handleRequest(HttpRequest httpRequest) async {
+    final endpoint = sources.getEndpoint();
+    if (endpoint != null) {
+      Server.log.info("Found Endpoint ${endpoint.baseName}.");
+      final path = httpRequest.requestedUri.path;
+      ResponseWriter? responseWriter = endpoint.getResponseWriter(path);
+      await sendRaw(httpRequest, responseWriter);
+    } else {
+      await sendRaw(httpRequest, null);
+    }
+  }
+
+  Future<void> sendIndexInfo(HttpRequest httpRequest) async {
+    httpRequest.response.write("Welcome to ADM Server!\n"
+        "\nAn experimental mock server written in Dart.\n");
   }
 
   Future<void> sendRaw(

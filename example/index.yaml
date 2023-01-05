@@ -1,2 +1,4 @@
 - response: default.data
   path: alpha
+
+- path: beta
