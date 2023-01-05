@@ -58,6 +58,6 @@ class ServerShelf {
       return Response.notFound("Matching entry not found.\n");
     }
 
-    return await builder.shelfResponse();
+    return await builder.shelfResponse(request);
   }
 }

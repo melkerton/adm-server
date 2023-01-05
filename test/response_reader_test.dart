@@ -35,6 +35,11 @@ main() {
     expect(reader.headers['Content-Type'], equals('app/text'));
 
     expect(reader.statusCode, equals(200));
+
+    // test body only
+    lines = ['{"id": 1}'];
+    reader = ResponseReader(lines);
+    expect(reader.hasHeaders(), isFalse);
   });
 }
 

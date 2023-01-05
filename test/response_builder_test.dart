@@ -11,7 +11,7 @@ main() {
 
     /// empty responseFile
     shelfResponse = await getResponse("data-empty");
-    //expect(shelfResponse)
+
     expect(shelfResponse.statusCode, equals(200));
 
     body = await shelfResponse.readAsString();
@@ -24,14 +24,33 @@ main() {
     body = await shelfResponse.readAsString();
     expect(body, isEmpty);
 
-    /// body only
+    // body only
+    shelfResponse = await getResponse("data-body");
+    expect(shelfResponse.statusCode, equals(200));
+    body = await shelfResponse.readAsString();
+    expect(body.contains("id"), isTrue);
+
+    // pipe (almost)
+    shelfResponse = await getResponse("pipe-simple.py");
+    expect(shelfResponse.statusCode, equals(202));
+    body = await shelfResponse.readAsString();
+  });
+
+  test('TestResponseBuilderPipe', () async {
+    File executable = File('test/data/response-builder/pipe-simple.py');
+    Request request = Request("GET", Uri.parse("http://127.0.0.1/beta"));
+    String httpMessage = await getPipeMessage(executable, request);
+    expect(httpMessage.contains('adms-status-code'), isTrue);
   });
 }
 
-Future<Response> getResponse(String responseFilePath) async {
+Future<Response> getResponse(String responseFilePath,
+    {Request? request}) async {
   File responseFile = File("test/data/response-builder/$responseFilePath");
   ResponseBuilder builder = ResponseBuilder(responseFile: responseFile);
-  return builder.shelfResponse();
+
+  request = request ?? Request("GET", Uri.parse("http://127.0.0.1/"));
+  return builder.shelfResponse(request);
 }
 
 /*

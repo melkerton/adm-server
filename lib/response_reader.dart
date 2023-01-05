@@ -69,7 +69,13 @@ class ResponseReader {
       return false;
     }
 
-    // TODO validate a first line like {"id": 1}
+    /// looks like a header field
+    /// TODO make sure it is
+    RegExp exp = RegExp(r'[^a-z\\-]', caseSensitive: false);
+    RegExpMatch? firstMatch = exp.firstMatch(parts[0]);
+    if (firstMatch != null) {
+      return false;
+    }
 
     return true;
   }
