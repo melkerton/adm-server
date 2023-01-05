@@ -2,3 +2,4 @@
   path: alpha
 
 - path: beta
+  response: pipe-beta.py

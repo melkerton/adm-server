@@ -69,6 +69,7 @@ class SherpaEndpointResponseIsNull extends SherpaMessage {
   }
 }
 
+// Received HTTP/0.9 when not allowed
 class SherpaHttpResponseIsEmpty extends SherpaMessage {
   @override
   String get hint => "Http Response Message can't be empty.";

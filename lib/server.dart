@@ -20,13 +20,17 @@ class Server {
   static Logger log = Logger("Server");
   late Sources sources;
 
+  int portNumber = 7170;
+
   /// Default constructor
-  Server(String sourcesDirPath) {
+  /// optional host and port from command line args
+  Server(String sourcesDirPath, {int? port}) {
+    portNumber = port ?? portNumber;
     sources = Sources(sourcesDirPath);
   }
 
   Future<void> bind() async {
-    httpServer = await HttpServer.bind("localhost", 7170);
+    httpServer = await HttpServer.bind("localhost", portNumber);
     log.info("Listening on http://localhost:${httpServer!.port}.");
   }
 
@@ -81,7 +85,9 @@ class Server {
     final socket = await response.detachSocket(writeHeaders: false);
 
     if (responseWriter != null) {
-      socket.write(responseWriter.getHttpResponseMessage());
+      final httpMessage =
+          await responseWriter.getHttpResponseMessage(httpRequest: httpRequest);
+      socket.write(httpMessage);
     } else {
       // no match found
       socket.write("HTTP/${httpRequest.protocolVersion} 452 Unmatched\n");

@@ -7,8 +7,10 @@ import 'logger.dart';
 
 main() {
   setUp(() {
-    TestLogger.record();
+    //TestLogger.record();
   });
 
-  test('TestEndpointGetResponseWriter', () {});
+  test('TestEndpoint::validateEndpoint', () {
+    // create a
+  });
 }

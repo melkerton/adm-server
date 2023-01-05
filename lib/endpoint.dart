@@ -28,7 +28,6 @@ class Endpoint {
 
   void validateEndpoint() {
     // first check is empty file
-
     final msgBase = endpointFile;
     String contents = endpointFile.readAsStringSync();
 
@@ -70,7 +69,8 @@ class Endpoint {
             continue;
           }
 
-          return ResponseWriter(responseFile: responseFile);
+          Endpoint.log.info('Building ResponseWriter.');
+          return ResponseWriter.builder(responseFile);
         }
       }
     }
