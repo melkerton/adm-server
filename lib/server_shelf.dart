@@ -39,7 +39,7 @@ class ServerShelf {
     await httpServer!.close();
   }
 
-  Response handleRequest(Request request) {
+  Future<Response> handleRequest(Request request) async {
     print("HandleRequest ${request.requestedUri}");
 
     if (request.url.path.isEmpty) {
@@ -58,15 +58,6 @@ class ServerShelf {
       return Response.notFound("Matching entry not found.\n");
     }
 
-    print("HandleRequest valid endpoint");
-
-    // return builder.shelfResponse();
-
-    /*
-    Server.log.info("Found Endpoint ${endpoint.baseName}.");
-
-    */
-
-    return Response.ok('Request for "${request.url}"\n');
+    return await builder.shelfResponse();
   }
 }

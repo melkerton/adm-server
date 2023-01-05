@@ -16,8 +16,11 @@ class ResponseBuilder {
   // responseFile existance checked in endpoint.getResponseBuilder
   ResponseBuilder({required this.responseFile});
 
-  Response shelfResponse() {
+  Future<Response> shelfResponse() async {
+    /// TODO write pipe handler
     // could be a pipe
+    // if it's a pipe grab
+    // httpMessage = get-pipe-data
     // read as lines to consume headers and body seperate
     final httpMessage = responseFile.readAsLinesSync();
 

@@ -10,7 +10,7 @@ main() {
     String body;
 
     /// empty responseFile
-    shelfResponse = getResponse("data-empty");
+    shelfResponse = await getResponse("data-empty");
     //expect(shelfResponse)
     expect(shelfResponse.statusCode, equals(200));
 
@@ -18,7 +18,7 @@ main() {
     expect(body, isEmpty);
 
     /// headers only
-    shelfResponse = getResponse("data-headers");
+    shelfResponse = await getResponse("data-headers");
     expect(shelfResponse.statusCode, equals(200));
 
     body = await shelfResponse.readAsString();
@@ -28,7 +28,7 @@ main() {
   });
 }
 
-Response getResponse(String responseFilePath) {
+Future<Response> getResponse(String responseFilePath) async {
   File responseFile = File("test/data/response-builder/$responseFilePath");
   ResponseBuilder builder = ResponseBuilder(responseFile: responseFile);
   return builder.shelfResponse();

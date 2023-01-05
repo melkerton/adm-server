@@ -16,7 +16,11 @@ test-N:
 docs-serve:
 	dtach -n docs-serve.d node docs-serve.js
 
+run:
+	dart run bin/adm_server.dart test/data/_valid
+
 # publishing
+
 
 analyze:
 	dart analyze .
