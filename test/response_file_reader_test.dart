@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:adm_server/response_builder.dart';
-import 'package:adm_server/response_file_reader.dart';
-import 'package:shelf/shelf.dart';
+import 'package:adm_server/response_reader.dart';
 import 'package:test/test.dart';
 
 /// ResponseBuilder({required this.responseFile});
@@ -11,23 +9,23 @@ import 'package:test/test.dart';
 ///
 
 main() {
-  test('TestResponseFileReader', () async {
+  test('TestResponseReader', () async {
     // body only
     List<String> lines = ['no-header'];
-    ResponseFileReader reader = ResponseFileReader(lines);
+    ResponseReader reader = ResponseReader(lines);
     expect(reader.hasHeaders(), isFalse);
     expect(reader.body, equals('no-header'));
 
     // header only + status code
     lines = ['x-adms-status-code: 201'];
-    reader = ResponseFileReader(lines);
+    reader = ResponseReader(lines);
     expect(reader.hasHeaders(), isTrue);
     expect(reader.body, isNull);
     expect(reader.headers.containsKey('x-adms-status-code'), isTrue);
     expect(reader.statusCode, equals(201));
 
     lines = ['Content-Type: app/text', '', 'body-test'];
-    reader = ResponseFileReader(lines);
+    reader = ResponseReader(lines);
     expect(reader.hasHeaders(), isTrue);
 
     expect(reader.body, isNotNull);

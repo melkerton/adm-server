@@ -4,11 +4,6 @@ import 'package:adm_server/response_builder.dart';
 import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
 
-/// ResponseBuilder({required this.responseFile});
-/// static ResponseBuilder builder(File responseFile)
-/// Future<String?> getHttpResponseMessage({HttpRequest? httpRequest}) async
-///
-
 main() {
   test('TestResponseBuilder', () async {
     Response shelfResponse;
@@ -34,7 +29,7 @@ main() {
 }
 
 Response getResponse(String responseFilePath) {
-  File responseFile = File("test/data/response-writer/$responseFilePath");
+  File responseFile = File("test/data/response-builder/$responseFilePath");
   ResponseBuilder builder = ResponseBuilder(responseFile: responseFile);
   return builder.shelfResponse();
 }

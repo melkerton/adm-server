@@ -2,9 +2,7 @@
 import 'dart:io';
 
 // package
-import 'package:adm_server/response_file_reader.dart';
-//import 'package:adm_server/pipe_response_writer.dart';
-//import 'package:adm_server/sherpa.dart';
+import 'package:adm_server/response_reader.dart';
 import 'package:shelf/shelf.dart';
 
 // local
@@ -28,7 +26,7 @@ class ResponseBuilder {
     }
 
     // process data file
-    ResponseFileReader reader = ResponseFileReader(httpMessage);
+    ResponseReader reader = ResponseReader(httpMessage);
 
     // non-empty
     return Response(reader.statusCode,

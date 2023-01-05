@@ -1,15 +1,12 @@
-import 'dart:io';
-
 // dart
+import 'dart:io';
 
 // package
 import 'package:shelf/shelf_io.dart' as shelf_io;
 
 // local
 
-import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/system.dart';
-import 'package:logging/logging.dart';
 import 'package:adm_server/response_builder.dart';
 import 'package:adm_server/sources.dart';
 import 'package:shelf/shelf.dart';
