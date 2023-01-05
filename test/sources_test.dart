@@ -3,49 +3,32 @@ import 'dart:io';
 
 // package
 
+import 'package:adm_server/system.dart';
 import 'package:test/test.dart';
 
-import 'package:xperi_dart_mock/error.dart';
-import 'package:xperi_dart_mock/sources.dart';
+import 'package:adm_server/sources.dart';
 
-import 'logger.dart';
+import 'helpers.dart';
 
 // local
 
+// we don't throw errors anymore, we report and continue
 main() {
   setUp(() {
     TestLogger.record();
   });
 
-  test('SourcesDirNotFound', () {
-    final Matcher throwsError = throwsA(isA<ErrorSourcesDirNotFound>());
+  test('TestSources', () {
+    System system = validSystem();
+    Sources sources;
 
-    String sourcesDir;
+    /// test valid Source
+    sources = Sources(system);
+    expect(sources.sourcesDirExists(), isTrue);
 
-    sourcesDir = "example/errors/sources/do-not-create";
-    expect(() => Sources.connect(sourcesDir), throwsError);
+    File endpointFile = File("${system.absSourcesDirPath}/index.yaml");
+    expect(sources.endpointFileExists(endpointFile), isTrue);
 
-    // getEndpoint
-  });
-
-  test('SourcesErrorSourcesEndpointFileNotFound', () {
-    final Matcher throwsError =
-        throwsA(isA<ErrorSourcesEndpointFileNotFound>());
-
-    String sourcesDir;
-
-    sourcesDir = "example/errors/sources/no-endpoint-file";
-    final sources = Sources.connect(sourcesDir);
-    expect(() => sources.getEndpoint(), throwsError);
-  });
-
-  test('TestSourcesGetEndpointNotNull', () {
-    String sourcesDir = "example/endpoint";
-    final sources = Sources.connect(sourcesDir);
-    sources.getEndpoint();
     expect(sources.getEndpoint(), isNotNull);
   });
 }
-
-// [1] https://pub.dev/documentation/test_api/latest/expect/throwsA.html
-/// need to come back to this

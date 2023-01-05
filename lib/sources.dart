@@ -2,47 +2,56 @@
 import 'dart:io';
 
 // package
+import 'package:adm_server/endpoint.dart';
+import 'package:adm_server/system.dart';
 
 // local
 
-import 'package:logging/logging.dart';
-import 'package:xperi_dart_mock/endpoint.dart';
-import 'package:xperi_dart_mock/error.dart';
-
-/// need to do ErrorEndpointDirectoryNotFound check on init
-
 class Sources {
-  Directory sourcesDir;
+  System system;
 
-  static Logger log = Logger("Sources");
-  Sources({required this.sourcesDir});
+  /// Default constructor
+  Sources(this.system) {
+    /// initial state inspection
+    /// reports value being used or
+    /// guidance on how to proceed
 
-  static Sources connect(String arg) {
-    // make sure sourcesDir exists
-    final sourcesDir = Directory(arg);
-    if (sourcesDir.existsSync() == false) {
-      Sources.log.severe("$sourcesDir not found.");
-      throw ErrorSourcesDirNotFound();
+    /// where our index.yaml file is
+    /// this is the directory adms_server is called in
+    /// so it clearly exists (testing allow direct setting)
+
+    // report found
+    //Sources.log.info("Sources(${system.absSourcesDirPath}).");
+  }
+
+  bool endpointFileExists(File endpointFile) {
+    if (endpointFile.existsSync() == false) {
+      //SherpaEndpointIndexFileNotFound(endpointFile);
+      return false;
     }
 
-    return Sources(sourcesDir: sourcesDir);
+    return true;
   }
 
   Endpoint? getEndpoint() {
-    String endpointFilePath = "${sourcesDir.path}/index.yaml";
-    final endpointFile = File(endpointFilePath);
+    // find our specfic endpointfile
+    String endpointFilePath = "${system.absSourcesDirPath}/index.yaml";
 
-    if (endpointFile.existsSync() == false) {
-      Sources.log.severe("$endpointFilePath not found.");
-      throw ErrorSourcesEndpointFileNotFound();
+    File endpointFile = File(endpointFilePath);
+
+    if (endpointFileExists(endpointFile) == false) {
+      return null;
     }
 
     return Endpoint(endpointFile: endpointFile);
   }
+
+  bool sourcesDirExists() {
+    if (system.sourcesDir.existsSync() == false) {
+      // add Sherpa
+      return false;
+    }
+
+    return true;
+  }
 }
-
-/*
-
-Sources controls file management
-it sprime role is look in DataDir for a file
-*/
