@@ -44,8 +44,7 @@ class SherpaEndpointIndexFileNotFound extends SherpaMessage {
   @override
   String get hint => "Endpoint IndexFile is missing.";
   SherpaEndpointIndexFileNotFound(super.referenceFile) {
-    sections.add(SherpaSection(
-        "Create an index.yaml file", "touch $absPath/index.yaml"));
+    sections.add(SherpaSection("Create an index.yaml file", "touch $absPath"));
     render(this);
   }
 }

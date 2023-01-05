@@ -17,8 +17,6 @@ class ResponseWriter {
   ResponseWriter({required this.responseFile});
 
   static ResponseWriter builder(File responseFile) {
-    // builder may still be required for future validations ? asserts?
-
     // check if is *.pipe
     if (responseFile.path.startsWith('pipe-')) {
       return PipeResponseWriter(responseFile: responseFile);

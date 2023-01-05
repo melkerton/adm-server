@@ -1,15 +1,14 @@
 // dart
 
-// package
-
-// local
-
 import 'dart:convert';
 import 'dart:io';
 
+// package
 import 'package:logging/logging.dart';
 
 import 'response_writer.dart';
+
+// local
 
 class PipeResponseWriter extends ResponseWriter {
   Logger log = Logger('PipeResponseWriter');
