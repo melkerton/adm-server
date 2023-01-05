@@ -10,9 +10,9 @@ import 'logger.dart';
 // Server handles all errors
 main() {
   late String sherpaData;
-  setUp(() => TestLogger.record());
 
   setUp(() {
+    TestLogger.record();
     sherpaData = "test/sherpa-data";
   });
 

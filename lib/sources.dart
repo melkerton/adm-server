@@ -2,12 +2,11 @@
 import 'dart:io';
 
 // package
+import 'package:adm_server/sherpa.dart';
+import 'package:adm_server/endpoint.dart';
+import 'package:logging/logging.dart';
 
 // local
-
-import 'package:adm_server/sherpa/sherpa.dart';
-import 'package:logging/logging.dart';
-import 'package:adm_server/endpoint.dart';
 
 class Sources {
   String sourcesDirPath;
@@ -42,13 +41,13 @@ class Sources {
 
     endpointFile = File(endpointFilePath);
     if (endpointFileExists() == true) {
-      Sources.log.info("Endpoint($absSourcesDirPath).");
+      Sources.log.info("Endpoint($endpointFilePath).");
     }
   }
 
   bool endpointFileExists() {
     if (endpointFile.existsSync() == false) {
-      //Sherpa.endpointFile(Sources.log, absSourcesDirPath);
+      SherpaEndpointIndexFileNotFound(endpointFile);
       return false;
     }
 
@@ -69,7 +68,7 @@ class Sources {
 
   bool sourcesDirExists() {
     if (sourcesDir.existsSync() == false) {
-      SherpaSourcesDirNotFound(absSourcesDirPath);
+      SherpaSourcesDirNotFound(sourcesDir);
       return false;
     }
 

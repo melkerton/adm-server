@@ -1,13 +1,11 @@
 // dart
-
-// package
-
-// local
-
 import 'dart:io';
 
-import 'package:adm_server/sherpa/http_response_is_empty.dart';
+// package
+import 'package:adm_server/sherpa.dart';
 import 'package:logging/logging.dart';
+
+// local
 
 // default response writer
 // returns file contents as Http Message
@@ -28,7 +26,7 @@ class ResponseWriter {
     // check non empty
     final httpMessage = responseFile.readAsStringSync();
     if (httpMessage.isEmpty) {
-      SherpaHttpResponseIsEmpty(responseFile.path);
+      SherpaHttpResponseIsEmpty(responseFile);
       return null;
     }
 

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:adm_server/sherpa/sherpa.dart';
+import 'package:adm_server/sherpa.dart';
 import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
 import 'package:adm_server/response_writer.dart';
@@ -66,7 +66,8 @@ class Endpoint {
           final responseFilePath = "$baseName/${response['response']}";
           final responseFile = File(responseFilePath);
           if (responseFile.existsSync() == false) {
-            SherpaEndpointResponseFileNotFound(responseFilePath);
+            SherpaEndpointResponseFileNotFound(responseFile);
+            continue;
           }
 
           return ResponseWriter(responseFile: responseFile);
