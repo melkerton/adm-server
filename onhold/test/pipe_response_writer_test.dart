@@ -6,7 +6,7 @@ import 'package:adm_server/pipe_response_writer.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
-import 'logger.dart';
+import 'helpers.dart';
 
 main() {
   setUp(() {

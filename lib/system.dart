@@ -6,33 +6,37 @@ import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
 
 class System {
-  String ps = Platform.pathSeparator;
-
+  YamlMap? admsYamlConfig;
   Logger log = Logger('Config');
+  String sourcesDirPath;
+
+  // server settings
   int port = 0;
   String host = "localhost";
 
-  late String absSourcesDirPath;
-  late Directory sourcesDir;
-  YamlMap? admsYamlConfig;
-
-  System({String? sourcesDirPath}) {
-    // get sourcesDir w/o training ps
-    var path = Directory(sourcesDirPath ?? "").absolute.path;
-    if (path.endsWith(ps)) {
-      // coverage expects this covered?
-      path = path.substring(0, path.lastIndexOf(ps));
+  System(this.sourcesDirPath) {
+    // clean path expect no trailing ps
+    if (sourcesDirPath.endsWith(ps)) {
+      sourcesDirPath =
+          sourcesDirPath.substring(0, sourcesDirPath.lastIndexOf(ps));
     }
-
-    absSourcesDirPath = path;
-    // path state is tested via sourcesDir.path
-    sourcesDir = Directory(path);
-
     loadConfig();
   }
 
+  // getters
+
+  Directory get sourcesDir {
+    return Directory(absSourcesDirPath);
+  }
+
+  String get absSourcesDirPath => Directory(sourcesDirPath).absolute.path;
+
+  String get ps => Platform.pathSeparator;
+
+  // methods
+
   void loadConfig() {
-    final admsConfigFile = File("${sourcesDir.path}/adms.yaml");
+    final admsConfigFile = File("$absSourcesDirPath/adms.yaml");
 
     if (admsConfigFile.existsSync() == false) {
       return;

@@ -3,11 +3,12 @@ import 'dart:io';
 
 // package
 
+import 'package:adm_server/system.dart';
 import 'package:test/test.dart';
 
 import 'package:adm_server/sources.dart';
 
-import 'logger.dart';
+import 'helpers.dart';
 
 // local
 
@@ -18,35 +19,16 @@ main() {
   });
 
   test('TestSources', () {
+    System system = validSystem();
     Sources sources;
-    String sourcesTestPath = "test/data/sources";
 
-    /// test no sources
-    sources = Sources('$sourcesTestPath/doesn-exist');
-    expect(sources.sourcesDir.existsSync(), isFalse);
+    /// test valid Source
+    sources = Sources(system);
+    expect(sources.sourcesDirExists(), isTrue);
 
-    /// test no index.yaml
-    sources = Sources("$sourcesTestPath/no-index");
-    expect(sources.endpointFile.existsSync(), isFalse);
+    File endpointFile = File("${system.absSourcesDirPath}/index.yaml");
+    expect(sources.endpointFileExists(endpointFile), isTrue);
 
-    /// test sourcesDir found and path has no trailing PS and exists
-    sources = Sources('$sourcesTestPath/');
-    expect(sources.absSourcesDirPath.endsWith('/'), isFalse);
-    expect(sources.sourcesDir.existsSync(), isTrue);
-
-    /// test endpointFile exists
-    sources = Sources('$sourcesTestPath/valid');
-    expect(sources.endpointFile.existsSync(), isTrue);
-
-    /*
-    String sourcesDir;
-
-    sourcesDir = "example/errors/sources/do-not-create";
-    */
-    // should not error
-    // getEndpoint
+    expect(sources.getEndpoint(), isNotNull);
   });
 }
-
-// [1] https://pub.dev/documentation/test_api/latest/expect/throwsA.html
-/// need to come back to this

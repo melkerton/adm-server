@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:test/test.dart';
-import 'logger.dart';
+import 'helpers.dart';
 import 'package:adm_server/response_writer.dart';
 
 main() {

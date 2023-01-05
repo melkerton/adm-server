@@ -6,32 +6,49 @@ import 'dart:io';
 
 // local
 
-import 'package:adm_server/adms_request.dart';
 import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/system.dart';
 import 'package:logging/logging.dart';
 import 'package:adm_server/response_writer.dart';
 import 'package:adm_server/sources.dart';
+import 'package:shelf/shelf.dart';
 
 /// Handle mock requests
 ///
 ///
 class ServerShelf {
-  HttpServer? httpServer;
-
   static Logger log = Logger("Server");
-  late Sources sources;
 
-  int portNumber = 7170;
+  Handler? handler;
 
-  late System system;
+  Sources sources;
+  System system;
 
   /// Default constructor
-  ServerShelf({String? sourcesDirPath}) {
-    system = System(sourcesDirPath: sourcesDirPath);
-    sources = Sources(system.sourcesDir.path);
+  ServerShelf(this.system, this.sources);
+
+  void start() {
+    handler = Pipeline().addHandler(_handleRequest);
   }
 
+  Response _handleRequest(Request request) {
+    final endpoint = sources.getEndpoint();
+
+    if (endpoint == null) {
+      return Response.ok('Endpoint is NULL');
+    }
+
+    ResponseWriter? responseWriter = endpoint.getResponseWriter(request);
+
+    /*
+    Server.log.info("Found Endpoint ${endpoint.baseName}.");
+
+    await sendRaw(httpRequest, responseWriter);
+    */
+    return Response.ok('Request for "${request.url}"');
+  }
+
+  /*
   Future<void> bind() async {
     httpServer = await HttpServer.bind(system.host, system.port);
 
@@ -121,6 +138,7 @@ class ServerShelf {
     await socket.flush(); // [1]
     await socket.close();
   }
+  */
 }
 
 // [1] https://api.dart.dev/stable/2.18.6/dart-io/IOSink/close.html

@@ -28,8 +28,8 @@ class Server {
 
   /// Default constructor
   Server({String? sourcesDirPath}) {
-    system = System(sourcesDirPath: sourcesDirPath);
-    sources = Sources(system.sourcesDir.path);
+    //system = System(sourcesDirPath: sourcesDirPath);
+    //sources = Sources(system.sourcesDir.path);
   }
 
   Future<void> bind() async {
@@ -79,6 +79,7 @@ class Server {
   }
 
   Future<void> handleRequest(HttpRequest httpRequest) async {
+    /*
     final endpoint = sources.getEndpoint();
 
     if (endpoint == null) {
@@ -90,6 +91,7 @@ class Server {
     final admsRequest = AdmsRequest(httpRequest);
     ResponseWriter? responseWriter = endpoint.getResponseWriter(admsRequest);
     await sendRaw(httpRequest, responseWriter);
+    */
   }
 
   Future<void> sendIndexInfo(HttpRequest httpRequest) async {

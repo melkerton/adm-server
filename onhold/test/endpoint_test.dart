@@ -4,8 +4,7 @@ import 'package:http/http.dart';
 import 'package:test/test.dart';
 import 'package:adm_server/endpoint.dart';
 
-import 'logger.dart';
-import 'mock.dart';
+import 'helpers.dart';
 
 main() {
   setUp(() {

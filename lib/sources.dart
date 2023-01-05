@@ -4,21 +4,18 @@ import 'dart:io';
 // package
 import 'package:adm_server/sherpa.dart';
 import 'package:adm_server/endpoint.dart';
+import 'package:adm_server/system.dart';
 import 'package:logging/logging.dart';
 
 // local
 
 class Sources {
-  String sourcesDirPath;
-
-  late String absSourcesDirPath;
-  late File endpointFile;
-  late Directory sourcesDir;
-
   static Logger log = Logger("Sources");
 
+  System system;
+
   /// Default constructor
-  Sources(this.sourcesDirPath) {
+  Sources(this.system) {
     /// initial state inspection
     /// reports value being used or
     /// guidance on how to proceed
@@ -26,32 +23,14 @@ class Sources {
     /// where our index.yaml file is
     /// this is the directory adms_server is called in
     /// so it clearly exists (testing allow direct setting)
-    sourcesDir = Directory(sourcesDirPath);
-
-    // generate an absolute path for clarity of reporting
-    absSourcesDirPath = sourcesDir.absolute.path;
-
-    // strip trailing
-    if (absSourcesDirPath.endsWith('/')) {
-      absSourcesDirPath =
-          absSourcesDirPath.substring(0, absSourcesDirPath.length - 1);
-    }
 
     // report found
-    Sources.log.info("Sources($absSourcesDirPath).");
-
-    // find our specfic endpointfile
-    String endpointFilePath = "$absSourcesDirPath/index.yaml";
-
-    endpointFile = File(endpointFilePath);
-    if (endpointFileExists() == true) {
-      Sources.log.info("Endpoint($endpointFilePath).");
-    }
+    Sources.log.info("Sources(${system.absSourcesDirPath}).");
   }
 
-  bool endpointFileExists() {
+  bool endpointFileExists(File endpointFile) {
     if (endpointFile.existsSync() == false) {
-      SherpaEndpointIndexFileNotFound(endpointFile);
+      //SherpaEndpointIndexFileNotFound(endpointFile);
       return false;
     }
 
@@ -59,10 +38,24 @@ class Sources {
   }
 
   Endpoint? getEndpoint() {
-    if (endpointFileExists() == false) {
+    // find our specfic endpointfile
+    String endpointFilePath = "${system.absSourcesDirPath}/index.yaml";
+
+    File endpointFile = File(endpointFilePath);
+
+    if (endpointFileExists(endpointFile) == false) {
       return null;
     }
 
     return Endpoint(endpointFile: endpointFile);
+  }
+
+  bool sourcesDirExists() {
+    if (system.sourcesDir.existsSync() == false) {
+      // add Sherpa
+      return false;
+    }
+
+    return true;
   }
 }

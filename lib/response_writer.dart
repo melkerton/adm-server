@@ -2,7 +2,7 @@
 import 'dart:io';
 
 // package
-import 'package:adm_server/pipe_response_writer.dart';
+//import 'package:adm_server/pipe_response_writer.dart';
 import 'package:adm_server/sherpa.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
@@ -25,7 +25,7 @@ class ResponseWriter {
     final baseName = basename(responseFile.path);
     if (baseName.startsWith('pipe-')) {
       log.info("Building PipeResponse.");
-      return PipeResponseWriter(responseFile: responseFile);
+      //return PipeResponseWriter(responseFile: responseFile);
     }
 
     log.info("Building Response.");

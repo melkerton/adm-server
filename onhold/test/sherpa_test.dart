@@ -5,7 +5,7 @@ import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/response_writer.dart';
 import 'package:adm_server/sources.dart';
 import "package:test/test.dart";
-import 'logger.dart';
+import 'helpers.dart';
 
 // need to write stdout tests
 // Server handles all errors
@@ -16,6 +16,7 @@ main() {
     TestLogger.record();
     sherpaData = "test/sherpa-data";
   });
+  /*
 
   test('SourceHelp', () {
     // no SourcesDir
@@ -47,4 +48,5 @@ main() {
 
     writer.getHttpResponseMessage();
   });
+  */
 }

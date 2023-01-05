@@ -1,4 +1,5 @@
 import 'package:adm_server/log_record_formatter.dart';
+import 'package:adm_server/system.dart';
 import 'package:logging/logging.dart';
 
 class TestLogger {
@@ -12,4 +13,8 @@ class TestLogger {
     TestLogger.recording = true;
     Logger.root.onRecord.listen((r) => LogRecordFormatter.debug(r));
   }
+}
+
+System validSystem() {
+  return System("test/data/_valid");
 }

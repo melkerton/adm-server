@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:shelf/shelf.dart';
 
-import 'package:adm_server/adms_request.dart';
 import 'package:adm_server/sherpa.dart';
 import 'package:path/path.dart' show dirname;
 import 'package:logging/logging.dart';
@@ -46,12 +46,12 @@ class Endpoint {
     yamlList = readYamlList;
   }
 
-  ResponseWriter? getResponseWriter(AdmsRequest admsRequest) {
+  ResponseWriter? getResponseWriter(Request request) {
     if (yamlList == null) {
       return null;
     }
 
-    final requestedUri = admsRequest.requestedUri.path;
+    final requestedUri = request.requestedUri.path;
 
     // only returns
     // check for matches
