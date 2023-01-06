@@ -3,6 +3,7 @@ import 'package:adm_server/sources.dart';
 import 'package:adm_server/system.dart';
 import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
+import 'package:http/http.dart' as http;
 
 import 'helpers.dart';
 
@@ -49,6 +50,13 @@ main() {
     Response response = await serverShelf.handleRequest(request);
 
     expect(response.statusCode, equals(404));
+  });
+
+  test('TestServerWithBody', () async {
+    print("WTF");
+    System system = System(["test/data/_valid/index.yaml"]);
+    Sources sources = Sources(system);
+    ServerShelf serverShelf = ServerShelf(system, sources);
   });
 }
 

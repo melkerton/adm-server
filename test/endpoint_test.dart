@@ -10,7 +10,7 @@ main() {
     //TestLogger.record();
   });
 
-  test('TestEndpoint', () {
+  test('TestEndpoint', () async {
     // create a
     final endpointFile = File('test/data/_valid/index.yaml');
     final endpoint = Endpoint(endpointFile: endpointFile);
@@ -26,19 +26,19 @@ main() {
 
     Uri uri = Uri.parse("$uriPath/alpha");
     Request request = Request("GET", uri);
-    ResponseBuilder? writer = endpoint.getResponseBuilder(request);
+    ResponseBuilder? writer = await endpoint.getResponseBuilder(request);
     expect(writer, isNotNull);
 
     uri = Uri.parse("$uriPath/alpha-missing");
     request = Request("GET", uri);
-    writer = endpoint.getResponseBuilder(request);
+    writer = await endpoint.getResponseBuilder(request);
 
     expect(writer, isNull);
 
     // query string
     uri = Uri.parse("$uriPath/alpha?id=1");
     request = Request("GET", uri);
-    writer = endpoint.getResponseBuilder(request);
+    writer = await endpoint.getResponseBuilder(request);
     expect(writer, isNotNull);
 
     // test not found ResponseBuilder

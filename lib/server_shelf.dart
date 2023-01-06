@@ -20,6 +20,8 @@ class ServerShelf {
   Sources sources;
   System system;
 
+  bool verbose = true;
+
   HttpServer? httpServer;
 
   /// Default constructor
@@ -40,7 +42,7 @@ class ServerShelf {
   }
 
   Future<Response> handleRequest(Request request) async {
-    print("HandleRequest ${request.requestedUri}");
+    printReceived(request);
 
     if (request.url.path.isEmpty) {
       return Response.ok('System is ready!\n');
@@ -52,12 +54,20 @@ class ServerShelf {
       return Response.notFound('Endpoint is NULL\n');
     }
 
-    ResponseBuilder? builder = endpoint.getResponseBuilder(request);
+    await request.readAsString();
+    await request.readAsString();
+
+    ResponseBuilder? builder = await endpoint.getResponseBuilder(request);
 
     if (builder == null) {
       return Response.notFound("Matching entry not found.\n");
     }
 
     return await builder.shelfResponse(request);
+  }
+
+  Future<void> printReceived(Request request) async {
+    print('* ${DateTime.now()} Received request.');
+    print("< ${request.method} ${request.requestedUri}");
   }
 }
