@@ -49,7 +49,8 @@ There are two types of `response` available:
 1. a flat data file containing an HttpMessage [^2] or
 2. an executable file that accepts the requested uri as the first agrument and prints an HttpMessage to stdout.
 
-## Mock Response Notes
+## Mock Response Files
+
 1. `response` paths are relative to the mock data directory.
 1. Add header `x-adms-status-code: NNN` to specify the response status code.
 
