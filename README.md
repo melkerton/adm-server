@@ -10,7 +10,7 @@ Cheers.
 
 --- 
 
-## Usage
+## Basic Usage
 
 ```
 curl https://github.com/melkerton/adm-server/releases/download/v0.0.1-alpha/adms-v0.0.1-alpha-linux-amd64.exe
@@ -18,9 +18,39 @@ chmod +x adms-v0.0.1-alpha-linux-amd64.exe
 ./adms-v0.0.1-alpha-linux-amd64.exe
 ```
 
-## Server configuration
+This will download `adms-v0.0.1-alpha-linux-amd64.exe`, make it executable, and start the server using the current directory as the mock data directory. Pass a directory path as the first argument [^1] to `adms-v0.0.1-alpha-linux-amd64.exe` to specify the mock data directory (first method preferred). 
 
-Create file adms.yaml in the root of the mock data directory.
+## Server Configuration
 
+Create a file `adms.yaml` in the root of the mock data directory.
+
+Example adms.yaml
+```
+server:
+    port: 4876
+    host: localhost
+```
+
+## Mock Data Configuration
+
+Create a file `index.yaml` next to `adms.yaml`. This file is a [YamlList](https://pub.dev/documentation/yaml/latest/yaml/YamlList-class.html) of [YampMap](https://pub.dev/documentation/yaml/latest/yaml/YamlMap-class.html)'s that maps the request uri to a response.
+
+Example
+```
+- path: alpha
+  response: data-alpha
+
+- path: beta
+  response: pipe-beta.py
+```
+
+There are two types of `response` available:
+
+1. a flat data file containing an HttpMessage [^2] or
+2. an executable that accepts the requested uri[^3] as the first agrument and prints an HttpMessage to stdout.
+
+[^1]: This is the only argument that `adms-v0.0.1-alpha-linux-amd64.exe` accepts.
+[^2]: (link and note re start line)
+[^3]: 
 
 [@kadevapp](https://twitter.com/kadevapp)
