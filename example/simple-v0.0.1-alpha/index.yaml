@@ -1,0 +1,5 @@
+- path: data-example
+  response: data-example
+
+- path: pipe-example
+  response: pipe-example.py
