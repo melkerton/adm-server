@@ -42,13 +42,12 @@ class Endpoint {
     return readYamlList;
   }
 
+  // matches are against request.url.path (includes query)
   ResponseBuilder? getResponseBuilder(Request request) {
     if (yamlList == null) {
       return null;
     }
 
-    // strip leading '/'
-    final requestedUri = request.requestedUri.path.substring(1);
     // only returns
     // check for matches
     for (final YamlMap entry in yamlList!) {
@@ -59,7 +58,7 @@ class Endpoint {
           continue;
         }
 
-        if (entry['path'] == requestedUri) {
+        if (entry['path'] == request.url.path) {
           final responseFilePath = "$dirPath/${entry['response']}";
           final responseFile = File(responseFilePath);
 

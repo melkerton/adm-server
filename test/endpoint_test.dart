@@ -35,6 +35,12 @@ main() {
 
     expect(writer, isNull);
 
+    // query string
+    uri = Uri.parse("$uriPath/alpha?id=1");
+    request = Request("GET", uri);
+    writer = endpoint.getResponseBuilder(request);
+    expect(writer, isNotNull);
+
     // test not found ResponseBuilder
   });
 }

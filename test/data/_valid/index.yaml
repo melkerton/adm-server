@@ -1,5 +1,8 @@
 - path: alpha
   response: data-alpha
 
+- path: alpha?id=1
+  response: data-alpha-1
+
 - path: beta
   response: pipe-beta.py
