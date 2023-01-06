@@ -2,7 +2,7 @@
 import sys
 import json
 
-print("x-adms-status-code: 200\n")
+print("x-adms-status-code: 202\n")
 
 resp = {
     'response': sys.argv[0],
