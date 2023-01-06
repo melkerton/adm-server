@@ -10,6 +10,8 @@ Cheers.
 
 --- 
 
+`improved user docs on ReadtheDocs will be available soon`
+
 ## Basic Usage
 
 ```
@@ -44,10 +46,13 @@ Example
   response: pipe-beta.py
 ```
 
-There are two types of `response` available:
+Where 
 
-1. a flat data file containing an HttpMessage [^2] or
-2. an executable file that accepts the requested uri as the first agrument and prints an HttpMessage to stdout. Prefix the `response` with `pipe-` (filename must also be prefixed).
+1. `path` is used to match against the requested uri (e.g. `requested/path?id=1&status=red`
+2. `response` is 
+    
+    1. a flat data file containing an HttpMessage [^2] or
+    2. an executable file that accepts the requested uri as the first agrument and prints an HttpMessage to stdout. Prefix the `response` with `pipe-` (filename must also be prefixed).
 
 ## Mock Response Files
 
