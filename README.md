@@ -8,4 +8,19 @@ This is primarily a way for me to learn Dart and reStructured Text, look at at y
 
 Cheers.
 
+--- 
+
+## Usage
+
+```
+curl https://github.com/melkerton/adm-server/releases/download/v0.0.1-alpha/adms-v0.0.1-alpha-linux-amd64.exe
+chmod +x adms-v0.0.1-alpha-linux-amd64.exe
+./adms-v0.0.1-alpha-linux-amd64.exe
+```
+
+## Server configuration
+
+Create file adms.yaml in the root of the mock data directory.
+
+
 [@kadevapp](https://twitter.com/kadevapp)
