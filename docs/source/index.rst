@@ -21,6 +21,7 @@ Navigation
 
 .. toctree::
 
+   usage/index.rst
    development/index.rst
    cheatsheet.rst
    
