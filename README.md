@@ -47,7 +47,7 @@ Example
 There are two types of `response` available:
 
 1. a flat data file containing an HttpMessage [^2] or
-2. an executable file that accepts the requested uri as the first agrument and prints an HttpMessage to stdout.
+2. an executable file that accepts the requested uri as the first agrument and prints an HttpMessage to stdout. Prefix the `response` with `pipe-` (filename must also be prefixed).
 
 ## Mock Response Files
 
