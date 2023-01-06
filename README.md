@@ -18,7 +18,7 @@ chmod +x adms-v0.0.1-alpha-linux-amd64.exe
 ./adms-v0.0.1-alpha-linux-amd64.exe
 ```
 
-This will download `adms-v0.0.1-alpha-linux-amd64.exe`, make it executable, and start the server using the current directory as the mock data directory. Pass a directory path as the first argument [^1] to `adms-v0.0.1-alpha-linux-amd64.exe` to specify the mock data directory (first method preferred). 
+This will download `adms-*.exe`, make it executable, and start the server using the current directory as the mock data directory. Pass a directory path as the first argument [^1] to `adms-*.exe` to specify the mock data directory (first method preferred). 
 
 ## Server Configuration
 
@@ -47,10 +47,13 @@ Example
 There are two types of `response` available:
 
 1. a flat data file containing an HttpMessage [^2] or
-2. an executable that accepts the requested uri[^3] as the first agrument and prints an HttpMessage to stdout.
+2. an executable file that accepts the requested uri as the first agrument and prints an HttpMessage to stdout.
 
-[^1]: This is the only argument that `adms-v0.0.1-alpha-linux-amd64.exe` accepts.
-[^2]: (link and note re start line)
-[^3]: 
+## Mock Response Notes
+1. `response` paths are relative to the mock data directory.
+1. Add header `x-adms-status-code: NNN` to specify the response status code.
+
+[^1]: This is the only argument that `adms-*.exe` accepts.
+[^2]: [HttpMessage](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages), without a start line.
 
 [@kadevapp](https://twitter.com/kadevapp)
