@@ -10,12 +10,14 @@ Cheers.
 
 --- 
 
-See [RTD] for user documentation.
+See [ReadtheDocs](https://adm-server.readthedocs.io/en/latest) for user documentation (v0.0.1-alpha).
 
-## Simple Example
+## Example
 
-A simple example is available [TAR], which includes:
+A simple example is available for [download Example](https://github.com/melkerton/adm-server/releases/download/v0.0.1-alpha/simple-v0.0.1-alpha.tar.gz), which includes:
 
-1. an exe compiled on `Linux host 5.10.0-20-amd64 #1 SMP Debian 5.10.158-2 (2022-12-13) x86_64 GNU/Linux`
+1. an exe compiled on `Linux host 5.10.0-20-amd64 #1 SMP Debian 5.10.158-2 (2022-12-13) x86_64 GNU/Linux`.
+2. a simple example demonstrating (a) a data response and (b) a pipe response.
+
 
 [@kadevapp](https://twitter.com/kadevapp)
