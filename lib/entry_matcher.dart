@@ -36,12 +36,13 @@ class EntryMatcher {
     }
 
     if (matchMethod == 'contains') {
-      return body!.contains(matchPattern);
+      return body.contains(matchPattern);
     }
 
     return true;
   }
 
+  /// exact match only
   bool matchPath() {
     if (entry['path'] != admsRequest.path) {
       return false;
@@ -50,3 +51,8 @@ class EntryMatcher {
     return true;
   }
 }
+
+/*
+StringMatcher
+MapMatcher
+*/
