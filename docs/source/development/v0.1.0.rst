@@ -1,0 +1,42 @@
+v0.1.0 Development
+==================
+
+Breaking changes
+----------------
+
+Prefixes will be delimited by ':' and will no longer be part of any related file name.
+
+Example:
+
+v0.0.1 expects file './pipe-executable'
+
+.. code-block::
+
+    - response: pipe-executable
+
+
+v0.1.0 expects file './executable'
+
+.. code-block::
+
+    - response: pipe:executable
+
+
+Path match will ignore QueryParams (introduce query params as demand requires)
+
+pipe prefix renamed to exec
+
+Introduce Prefixes
+------------------
+
+Matching Prefixes (Default exact):
+
+Available for path, body (query, headers as demand requires)
+
+#. contains: executes Darts contains() method on String of related field
+
+
+
+
+
+
