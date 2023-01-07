@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:adm_server/adms_request.dart';
 import 'package:adm_server/response_builder.dart';
 import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
@@ -10,7 +11,7 @@ main() {
     //TestLogger.record();
   });
 
-  test('TestEndpoint', () {
+  test('TestEndpoint', () async {
     // create a
     final endpointFile = File('test/data/_valid/index.yaml');
     final endpoint = Endpoint(endpointFile: endpointFile);
@@ -25,20 +26,23 @@ main() {
     // test found ResponseBuilder
 
     Uri uri = Uri.parse("$uriPath/alpha");
-    Request request = Request("GET", uri);
-    ResponseBuilder? writer = endpoint.getResponseBuilder(request);
+    Request shelfRequest = Request("GET", uri);
+    AdmsRequest admsRequest = AdmsRequest(shelfRequest);
+    ResponseBuilder? writer = await endpoint.getResponseBuilder(admsRequest);
     expect(writer, isNotNull);
 
     uri = Uri.parse("$uriPath/alpha-missing");
-    request = Request("GET", uri);
-    writer = endpoint.getResponseBuilder(request);
+    shelfRequest = Request("GET", uri);
+    admsRequest = AdmsRequest(shelfRequest);
+    writer = await endpoint.getResponseBuilder(admsRequest);
 
     expect(writer, isNull);
 
     // query string
     uri = Uri.parse("$uriPath/alpha?id=1");
-    request = Request("GET", uri);
-    writer = endpoint.getResponseBuilder(request);
+    shelfRequest = Request("GET", uri);
+    admsRequest = AdmsRequest(shelfRequest);
+    writer = await endpoint.getResponseBuilder(admsRequest);
     expect(writer, isNotNull);
 
     // test not found ResponseBuilder
