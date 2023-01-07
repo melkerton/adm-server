@@ -43,7 +43,14 @@ class ServerShelf {
   }
 
   Future<Response> handleRequest(Request shelfRequest) async {
-    AdmsRequest admsRequest = AdmsRequest(shelfRequest);
+    String? requestBody;
+    if (shelfRequest.isEmpty == false) {
+      requestBody = await shelfRequest.readAsString();
+    }
+
+    AdmsRequest admsRequest =
+        AdmsRequest(shelfRequest, requestBody: requestBody);
+
     printReceived(admsRequest);
 
     if (shelfRequest.url.path.isEmpty) {
@@ -74,7 +81,7 @@ class ServerShelf {
       print("< ${header.key}: ${header.value}");
     }
 
-    String? body = await admsRequest.body;
+    String? body = admsRequest.requestBody;
     if (body != null && body.isNotEmpty) {
       print("<\n< ${body.trimRight()}");
     }

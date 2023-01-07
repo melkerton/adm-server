@@ -11,14 +11,13 @@ main() {
     // GET no body
     request = Request('GET', Uri.parse("http://locahost/path?id=1"));
     admsRequest = AdmsRequest(request);
-    expect(await admsRequest.body, isNull);
+    expect(admsRequest.requestBody, isNull);
     expect(admsRequest.path, "path");
 
-    // POST with body
-    request =
-        Request('POST', Uri.parse("http://locahost/path?id=2"), body: "ALPHA");
-    admsRequest = AdmsRequest(request);
-    body = await admsRequest.body;
+    // POST with body, CONTEXT expects requestBody in admsRequest
+    request = Request('POST', Uri.parse("http://locahost/path?id=2"));
+    admsRequest = AdmsRequest(request, requestBody: "ALPHA");
+    body = admsRequest.requestBody;
     expect(body, isNotNull);
     expect(body, equals('ALPHA'));
   });

@@ -4,23 +4,24 @@ import 'package:shelf/shelf.dart';
 /// make body available
 class AdmsRequest {
   Request shelfRequest;
-  String? storedBody;
-  bool _bodyHasBeenConsumed = false;
+  String? requestBody;
 
-  AdmsRequest(this.shelfRequest);
-
-  Future<String?> get body async {
-    if (shelfRequest.contentLength == 0) {
-      return null;
-    }
-
-    if (_bodyHasBeenConsumed == false) {
-      storedBody = await shelfRequest.readAsString();
-      _bodyHasBeenConsumed = true;
-    }
-
-    return storedBody;
-  }
+  AdmsRequest(this.shelfRequest, {this.requestBody});
 
   String get path => shelfRequest.url.path;
 }
+
+/*
+
+    if (shelfRequest.isEmpty) {
+      print('AdmsRequest shelfRequestIsEmpty');
+      return null;
+    }
+
+    print('AdmsRequest ${shelfRequest.contentLength} ${storedBody == null}');
+    if (_bodyHasBeenConsumed == true) {
+      print('AdmsRequest consumed');
+      return storedBody;
+    }
+
+*/

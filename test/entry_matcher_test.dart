@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 main() {
-  test('TestEntryMatcher', () async {
+  test('TestEntryMatcher', () {
     String entryString;
     YamlMap entry;
     Request shelfRequest;
@@ -16,31 +16,30 @@ main() {
     entry = loadYaml(entryString);
     shelfRequest = Request("GET", Uri.parse("http://127.0.0.1/a"));
     admsRequest = AdmsRequest(shelfRequest);
-    expect(await EntryMatcher(entry, admsRequest).isMatch, isTrue);
+    expect(EntryMatcher(entry, admsRequest).isMatch, isTrue);
 
+    // IN THIS CONTEXT
+    // AdmsRequest expects requestBody, shelfRequest body is ignored
     // body contains
     entryString = "{'path': 'a', 'body': 'contains!alpha'}";
     entry = loadYaml(entryString);
-    shelfRequest =
-        Request("POST", Uri.parse("http://127.0.0.1/a"), body: "ok alpha 1");
-    admsRequest = AdmsRequest(shelfRequest);
-    expect(await EntryMatcher(entry, admsRequest).isMatch, isTrue);
+    shelfRequest = Request("POST", Uri.parse("http://127.0.0.1/a"));
+    admsRequest = AdmsRequest(shelfRequest, requestBody: "ok alpha 1");
+    expect(EntryMatcher(entry, admsRequest).isMatch, isTrue);
 
     // body exact, expect isMatch = false
     entryString = "{'path': 'a', 'body': 'alpha'}";
     entry = loadYaml(entryString);
-    shelfRequest =
-        Request("POST", Uri.parse("http://127.0.0.1/a"), body: "ok alpha 1");
-    admsRequest = AdmsRequest(shelfRequest);
-    expect(await EntryMatcher(entry, admsRequest).isMatch, isFalse);
+    shelfRequest = Request("POST", Uri.parse("http://127.0.0.1/a"));
+    admsRequest = AdmsRequest(shelfRequest, requestBody: "ok alpha 1");
+    expect(EntryMatcher(entry, admsRequest).isMatch, isFalse);
 
     // body exact, expect isMatch = true
     entryString = "{'path': 'a', 'body': 'alpha'}";
     entry = loadYaml(entryString);
-    shelfRequest =
-        Request("POST", Uri.parse("http://127.0.0.1/a"), body: "alpha");
-    admsRequest = AdmsRequest(shelfRequest);
-    expect(await EntryMatcher(entry, admsRequest).isMatch, isTrue);
+    shelfRequest = Request("POST", Uri.parse("http://127.0.0.1/a"));
+    admsRequest = AdmsRequest(shelfRequest, requestBody: "alpha");
+    expect(EntryMatcher(entry, admsRequest).isMatch, isTrue);
   });
 
   test('TestEntryProperty', () {

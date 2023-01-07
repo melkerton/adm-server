@@ -11,22 +11,23 @@ class EntryMatcher {
   // find negative examples
   // all set matchers must match
   // if nothing fails return true
-  Future<bool> get isMatch async {
+  bool get isMatch {
     // path is exact match
     if (matchPath() == false) {
       return false;
     }
 
-    if (entry.containsKey('body') == true && await matchBody() == false) {
+    if (entry.containsKey('body') == true && matchBody() == false) {
       return false;
     }
 
     return true;
   }
 
-  Future<bool> matchBody() async {
+  bool matchBody() {
     // do we have a body to match with?
-    String? body = await admsRequest.body;
+    String? body = admsRequest.requestBody;
+
     if (body == null) {
       return false;
     }

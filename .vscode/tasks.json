@@ -12,6 +12,12 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Test stored-body",
+            "type": "shell",
+            "command": "./test/data/stored-body/client.py",
+            "problemMatcher": []
         }
     ]
 }
