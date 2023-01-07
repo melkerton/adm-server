@@ -43,7 +43,8 @@ class ServerShelf {
   }
 
   Future<Response> handleRequest(Request shelfRequest) async {
-    printReceived(shelfRequest);
+    AdmsRequest admsRequest = AdmsRequest(shelfRequest);
+    printReceived(admsRequest);
 
     if (shelfRequest.url.path.isEmpty) {
       return Response.ok('System is ready!\n');
@@ -55,7 +56,6 @@ class ServerShelf {
       return Response.notFound('Endpoint is NULL\n');
     }
 
-    AdmsRequest admsRequest = AdmsRequest(shelfRequest);
     ResponseBuilder? builder = await endpoint.getResponseBuilder(admsRequest);
 
     if (builder == null) {
@@ -65,23 +65,20 @@ class ServerShelf {
     return await builder.shelfResponse(shelfRequest);
   }
 
-  Future<void> printReceived(Request request) async {
+  Future<void> printReceived(AdmsRequest admsRequest) async {
     print('* ${DateTime.now()} Received request.');
-    print("< ${request.method} ${request.requestedUri}");
+    print("< ${admsRequest.shelfRequest.method} ${admsRequest.path}");
+
+    Request shelfRequest = admsRequest.shelfRequest;
+    for (final header in shelfRequest.headers.entries) {
+      print("< ${header.key}: ${header.value}");
+    }
+
+    String? body = await admsRequest.body;
+    if (body != null && body.isNotEmpty) {
+      print("<\n< ${body.trimRight()}");
+    }
+
+    print('');
   }
 }
-
-/*
-
-    if (entry.containsKey('debug')) {
-      for (final header in request.headers.entries) {
-        print("< ${header.key}: ${header.value}");
-      }
-
-      if (body.isNotEmpty) {
-        print("<\n< ${body.trimRight()}");
-      }
-
-      print('');
-    }
-*/
