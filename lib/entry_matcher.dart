@@ -1,10 +1,10 @@
-import 'package:shelf/shelf.dart';
+import 'package:adm_server/adms_request.dart';
 import 'package:yaml/yaml.dart';
 
 class EntryMatcher {
   YamlMap entry;
-  Request request;
-  EntryMatcher(this.entry, this.request) {
+  AdmsRequest admsRequest;
+  EntryMatcher(this.entry, this.admsRequest) {
     // body contains
   }
 
@@ -29,33 +29,21 @@ class EntryMatcher {
     String matchMethod = parts[0];
     String matchPattern = parts.sublist(1).join("");
 
-    String body = await request.readAsString();
+    String? body = await admsRequest.body;
 
-    if (entry.containsKey('debug')) {
-      for (final header in request.headers.entries) {
-        print("< ${header.key}: ${header.value}");
-      }
-
-      if (body.isNotEmpty) {
-        print("<\n< ${body.trimRight()}");
-      }
-
-      print('');
-    }
-
-    if (body.isEmpty) {
-      throw Exception('body unexpectedly empty');
+    if (body == null) {
+      return false;
     }
 
     if (matchMethod == 'contains') {
-      return body.contains(matchPattern);
+      return body!.contains(matchPattern);
     }
 
     return true;
   }
 
   bool matchPath() {
-    if (entry['path'] != request.url.path) {
+    if (entry['path'] != admsRequest.path) {
       return false;
     }
 

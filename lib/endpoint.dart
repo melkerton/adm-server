@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:adm_server/adms_request.dart';
 import 'package:adm_server/entry_matcher.dart';
-import 'package:shelf/shelf.dart';
 
 import 'package:path/path.dart' show dirname;
 import 'package:adm_server/response_builder.dart';
@@ -44,7 +44,7 @@ class Endpoint {
   }
 
   // matches are against request.url.path (includes query)
-  Future<ResponseBuilder?> getResponseBuilder(Request request) async {
+  Future<ResponseBuilder?> getResponseBuilder(AdmsRequest admsRequest) async {
     if (yamlList == null) {
       return null;
     }
@@ -59,7 +59,7 @@ class Endpoint {
           continue;
         }
 
-        EntryMatcher entryMatcher = EntryMatcher(entry, request);
+        EntryMatcher entryMatcher = EntryMatcher(entry, admsRequest);
 
         if (await entryMatcher.isMatch) {
           final responseFilePath = "$dirPath/${entry['response']}";
