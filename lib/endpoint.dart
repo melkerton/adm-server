@@ -62,16 +62,7 @@ class Endpoint {
         EntryMatcher entryMatcher = EntryMatcher(entry, admsRequest);
 
         if (await entryMatcher.isMatch) {
-          final responseFilePath = "$dirPath/${entry['response']}";
-          final responseFile = File(responseFilePath);
-
-          if (responseFile.existsSync() == false) {
-            //SherpaEndpointResponseFileNotFound(responseFile);
-            continue;
-          }
-
-          //Endpoint.log.info('Building ResponseWriter.');
-          return ResponseBuilder(responseFile: responseFile);
+          return ResponseBuilder(this, EntryProperty(entry['response']));
         }
       }
     }

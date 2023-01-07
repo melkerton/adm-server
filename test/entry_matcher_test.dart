@@ -19,11 +19,42 @@ main() {
     expect(await EntryMatcher(entry, admsRequest).isMatch, isTrue);
 
     // body contains
-    entryString = "{'path': 'a', 'body': 'contains:alpha'}";
+    entryString = "{'path': 'a', 'body': 'contains!alpha'}";
     entry = loadYaml(entryString);
     shelfRequest =
         Request("POST", Uri.parse("http://127.0.0.1/a"), body: "ok alpha 1");
     admsRequest = AdmsRequest(shelfRequest);
     expect(await EntryMatcher(entry, admsRequest).isMatch, isTrue);
+
+    // body exact, expect isMatch = false
+    entryString = "{'path': 'a', 'body': 'alpha'}";
+    entry = loadYaml(entryString);
+    shelfRequest =
+        Request("POST", Uri.parse("http://127.0.0.1/a"), body: "ok alpha 1");
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(await EntryMatcher(entry, admsRequest).isMatch, isFalse);
+
+    // body exact, expect isMatch = true
+    entryString = "{'path': 'a', 'body': 'alpha'}";
+    entry = loadYaml(entryString);
+    shelfRequest =
+        Request("POST", Uri.parse("http://127.0.0.1/a"), body: "alpha");
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(await EntryMatcher(entry, admsRequest).isMatch, isTrue);
+  });
+
+  test('TestEntryProperty', () {
+    String property;
+    EntryProperty entryProperty;
+
+    property = "exec!alpha-directory";
+    entryProperty = EntryProperty(property);
+    expect(entryProperty.prefix, isNotNull);
+    expect(entryProperty.value, 'alpha-directory');
+
+    property = "alpha-directory";
+    entryProperty = EntryProperty(property);
+    expect(entryProperty.prefix, isNull);
+    expect(entryProperty.value, 'alpha-directory');
   });
 }

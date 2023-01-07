@@ -53,7 +53,6 @@ main() {
   });
 
   test('TestServerWithBody', () async {
-    print("WTF");
     System system = System(["test/data/_valid/index.yaml"]);
     Sources sources = Sources(system);
     ServerShelf serverShelf = ServerShelf(system, sources);

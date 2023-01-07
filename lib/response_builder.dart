@@ -2,8 +2,9 @@
 import 'dart:io';
 
 // package
+import 'package:adm_server/endpoint.dart';
+import 'package:adm_server/entry_matcher.dart';
 import 'package:adm_server/response_reader.dart';
-import 'package:path/path.dart';
 import 'package:shelf/shelf.dart';
 
 // local
@@ -11,37 +12,46 @@ import 'package:shelf/shelf.dart';
 // default response writer
 // returns file contents as Http Message
 class ResponseBuilder {
-  File responseFile;
+  File? responseFile;
   //static Logger log = Logger("ResponseWriter");
+  Endpoint endpoint;
+  EntryProperty entryProperty;
 
   // responseFile existance checked in endpoint.getResponseBuilder
-  ResponseBuilder({required this.responseFile});
+  ResponseBuilder(this.endpoint, this.entryProperty);
 
-  Future<Response> shelfResponse(Request request) async {
-    List<String> httpMessage = [];
+  Future<String> getPrefixResponseHttpMessage(Request request) async {
+    String prefix = entryProperty.prefix!;
+    File responseFile = File("${endpoint.dirPath}/${entryProperty.value}");
 
-    /// TODO write pipe handler
-    // could be a pipe
-    // if it's a pipe grab
-    // httpMessage = get-pipe-data
-    // read as lines to consume headers and body seperate
+    // pre conditions
+    // file exists, valid prefix found
 
-    String baseName = basename(responseFile.path);
-    if (baseName.startsWith('pipe-')) {
-      String message = await getPipeMessage(responseFile, request);
+    if (responseFile.existsSync() == true) {
+      if (prefix == 'exec') {
+        return getPipeMessage(responseFile, request);
+      }
 
-      // OS
-      httpMessage = message.split('\n');
-    } else {
-      httpMessage = responseFile.readAsLinesSync();
+      if (prefix == 'flat') {
+        return responseFile.readAsStringSync();
+      }
     }
 
-    if (httpMessage.isEmpty) {
-      return Response(200);
+    // invalid or not found, return original value
+    return [entryProperty.prefix, entryProperty.value]
+        .join(EntryProperty.delim);
+  }
+
+  // OS
+  Future<Response> shelfResponse(Request request) async {
+    String httpMessage = entryProperty.value;
+
+    if (entryProperty.prefix != null) {
+      httpMessage = await getPrefixResponseHttpMessage(request);
     }
 
     // process data file
-    ResponseReader reader = ResponseReader(httpMessage);
+    ResponseReader reader = ResponseReader(httpMessage.split("\n"));
 
     // non-empty
     return Response(reader.statusCode,

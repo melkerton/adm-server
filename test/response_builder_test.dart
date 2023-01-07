@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:adm_server/endpoint.dart';
+import 'package:adm_server/entry_matcher.dart';
 import 'package:adm_server/response_builder.dart';
 import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
@@ -9,29 +11,39 @@ main() {
     Response shelfResponse;
     String body;
 
-    /// empty responseFile
-    shelfResponse = await getResponse("data-empty");
+    /// string (no prefix)
+    shelfResponse = await getResponse("x-adms-status-code: 202\n\nalpha");
+    expect(shelfResponse.statusCode, equals(202));
 
+    /// unrecognized prefix
+    shelfResponse = await getResponse("data!empty");
     expect(shelfResponse.statusCode, equals(200));
 
     body = await shelfResponse.readAsString();
-    expect(body, isEmpty);
+    expect(body, equals('data!empty'));
+
+    /// flat prefix
+    shelfResponse = await getResponse("flat!flat-sample");
+    expect(shelfResponse.statusCode, equals(200));
+
+    body = await shelfResponse.readAsString();
+    expect(body, equals('flat-sample'));
 
     /// headers only
-    shelfResponse = await getResponse("data-headers");
+    shelfResponse = await getResponse("flat!headers");
     expect(shelfResponse.statusCode, equals(200));
 
     body = await shelfResponse.readAsString();
     expect(body, isEmpty);
 
     // body only
-    shelfResponse = await getResponse("data-body");
+    shelfResponse = await getResponse("flat!body");
     expect(shelfResponse.statusCode, equals(200));
     body = await shelfResponse.readAsString();
     expect(body.contains("id"), isTrue);
 
     // pipe (almost)
-    shelfResponse = await getResponse("pipe-simple.py");
+    shelfResponse = await getResponse("exec!pipe-simple.py");
     expect(shelfResponse.statusCode, equals(202));
     body = await shelfResponse.readAsString();
   });
@@ -44,10 +56,14 @@ main() {
   });
 }
 
-Future<Response> getResponse(String responseFilePath,
+Future<Response> getResponse(String entryPropertyValue,
     {Request? request}) async {
-  File responseFile = File("test/data/response-builder/$responseFilePath");
-  ResponseBuilder builder = ResponseBuilder(responseFile: responseFile);
+  File endpointFile = File("test/data/response-builder/index.yaml");
+
+  Endpoint endpoint = Endpoint(endpointFile: endpointFile);
+  EntryProperty entryProperty = EntryProperty(entryPropertyValue);
+
+  ResponseBuilder builder = ResponseBuilder(endpoint, entryProperty);
 
   request = request ?? Request("GET", Uri.parse("http://127.0.0.1/"));
   return builder.shelfResponse(request);

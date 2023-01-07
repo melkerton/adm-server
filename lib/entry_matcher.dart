@@ -25,21 +25,24 @@ class EntryMatcher {
   }
 
   Future<bool> matchBody() async {
-    List<String> parts = entry['body'].split(":");
-    String matchMethod = parts[0];
-    String matchPattern = parts.sublist(1).join("");
-
+    // do we have a body to match with?
     String? body = await admsRequest.body;
-
     if (body == null) {
       return false;
     }
 
-    if (matchMethod == 'contains') {
-      return body.contains(matchPattern);
-    }
+    EntryProperty entryProperty = EntryProperty(entry['body']);
 
-    return true;
+    String matchMethod = entryProperty.prefix ?? 'exact';
+
+    switch (matchMethod) {
+      case 'exact':
+        return entryProperty.value == body;
+      case 'contains':
+        return body.contains(entryProperty.value);
+      default:
+        return false;
+    }
   }
 
   /// exact match only
@@ -49,6 +52,24 @@ class EntryMatcher {
     }
 
     return true;
+  }
+}
+
+class EntryProperty {
+  static String delim = '!';
+  String? prefix;
+  String value;
+  int prefixMaxLength = 16;
+
+  EntryProperty(this.value) {
+    // test pattern
+    int indexOfDelim = value.indexOf(EntryProperty.delim);
+
+    // is a prefix
+    if (indexOfDelim > -1 && indexOfDelim < prefixMaxLength) {
+      prefix = value.substring(0, indexOfDelim);
+      value = value.substring(indexOfDelim + 1);
+    }
   }
 }
 

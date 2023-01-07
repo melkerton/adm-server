@@ -1,8 +1,8 @@
 - path: alpha
-  response: data-alpha
+  response: flat!data-alpha
 
 - path: alpha?id=1
-  response: data-alpha-1
+  response: flat!data-alpha-1
 
 - path: beta
-  response: pipe-beta.py
+  response: exec!pipe-beta.py
