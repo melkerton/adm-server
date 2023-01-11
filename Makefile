@@ -7,7 +7,7 @@ test-watch:
 
 # specific tests
 test-adms-watch:
-	nodemon -x 'dart run' -e 'dart'
+	nodemon -x 'dart run bin/adm_server.dart test/data/_valid' -e 'dart'
 
 # test by test(NAME, () {})
 test-N:

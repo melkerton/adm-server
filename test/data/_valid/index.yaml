@@ -1,4 +1,5 @@
 - path: alpha
+  label: Alpha1
   response: flat!data-alpha
 
 - path: alpha?id=1

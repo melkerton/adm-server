@@ -66,9 +66,12 @@ class ServerShelf {
     ResponseBuilder? builder = await endpoint.getResponseBuilder(admsRequest);
 
     if (builder == null) {
-      return Response.notFound("Matching entry not found.\n");
+      String msg = "Matching entry not found.";
+      print('> Matched: None\n');
+      return Response.notFound("$msg\n");
     }
 
+    print('> Matched: ${builder.label}\n');
     return await builder.shelfResponse(shelfRequest);
   }
 

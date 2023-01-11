@@ -61,8 +61,9 @@ class Endpoint {
 
         EntryMatcher entryMatcher = EntryMatcher(entry, admsRequest);
 
-        if (await entryMatcher.isMatch) {
-          return ResponseBuilder(this, EntryProperty(entry['response']));
+        if (entryMatcher.isMatch) {
+          // Add entry
+          return ResponseBuilder(this, entry, EntryProperty(entry['response']));
         }
       }
     }

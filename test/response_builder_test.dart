@@ -5,6 +5,7 @@ import 'package:adm_server/entry_matcher.dart';
 import 'package:adm_server/response_builder.dart';
 import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
+import 'package:yaml/yaml.dart';
 
 main() {
   test('TestResponseBuilder', () async {
@@ -63,7 +64,8 @@ Future<Response> getResponse(String entryPropertyValue,
   Endpoint endpoint = Endpoint(endpointFile: endpointFile);
   EntryProperty entryProperty = EntryProperty(entryPropertyValue);
 
-  ResponseBuilder builder = ResponseBuilder(endpoint, entryProperty);
+  YamlMap entry = loadYaml("{}");
+  ResponseBuilder builder = ResponseBuilder(endpoint, entry, entryProperty);
 
   request = request ?? Request("GET", Uri.parse("http://127.0.0.1/"));
   return builder.shelfResponse(request);

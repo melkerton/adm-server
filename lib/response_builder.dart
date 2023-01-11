@@ -6,6 +6,7 @@ import 'package:adm_server/endpoint.dart';
 import 'package:adm_server/entry_matcher.dart';
 import 'package:adm_server/response_reader.dart';
 import 'package:shelf/shelf.dart';
+import 'package:yaml/yaml.dart';
 
 // local
 
@@ -14,11 +15,15 @@ import 'package:shelf/shelf.dart';
 class ResponseBuilder {
   File? responseFile;
   //static Logger log = Logger("ResponseWriter");
+  YamlMap entry;
   Endpoint endpoint;
   EntryProperty entryProperty;
 
+  String get label =>
+      entry['label'] ?? "(label not set, add field `label` to entry)";
+
   // responseFile existance checked in endpoint.getResponseBuilder
-  ResponseBuilder(this.endpoint, this.entryProperty);
+  ResponseBuilder(this.endpoint, this.entry, this.entryProperty);
 
   Future<String> getPrefixResponseHttpMessage(Request request) async {
     String prefix = entryProperty.prefix!;
