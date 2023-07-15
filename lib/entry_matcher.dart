@@ -17,6 +17,10 @@ class EntryMatcher {
       return false;
     }
 
+    if (matchMethod() == false) {
+      return false;
+    }
+
     if (matchQuery() == false) {
       return false;
     }
@@ -48,6 +52,14 @@ class EntryMatcher {
       default:
         return false;
     }
+  }
+
+  bool matchMethod() {
+    if (entry.containsKey('method')) {
+      return entry['method'] == admsRequest.method;
+    }
+
+    return true;
   }
 
   /// exact match only

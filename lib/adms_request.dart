@@ -8,6 +8,7 @@ class AdmsRequest {
 
   AdmsRequest(this.shelfRequest, {this.requestBody});
 
+  String get method => shelfRequest.method.toLowerCase();
   String get path => shelfRequest.url.path;
   Map<String, String> get query => shelfRequest.url.queryParameters;
 }
