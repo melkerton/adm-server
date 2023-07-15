@@ -19,7 +19,7 @@ class ResponseReader {
   String? buildBody() {
     if (hasHeaders()) {
       if (bodyDelim > 0) {
-        responseFileLines.sublist(bodyDelim + 1).join('\n');
+        return responseFileLines.sublist(bodyDelim + 1).join('\n');
       } else {
         return null;
       }

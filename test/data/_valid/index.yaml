@@ -2,7 +2,9 @@
   label: Alpha1
   response: flat!data-alpha
 
-- path: alpha?id=1
+- path: alpha
+  query: 
+    id: 1
   response: flat!data-alpha-1
 
 - path: beta

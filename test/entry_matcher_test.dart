@@ -40,6 +40,49 @@ main() {
     shelfRequest = Request("POST", Uri.parse("http://127.0.0.1/a"));
     admsRequest = AdmsRequest(shelfRequest, requestBody: "alpha");
     expect(EntryMatcher(entry, admsRequest).isMatch, isTrue);
+
+    //// test query matcher
+    // entry contains query, request does not contain query
+    entryString = "{'path': 'a', 'query': 'id=1'}";
+    entry = loadYaml(entryString);
+    shelfRequest = Request("GET", Uri.parse("http://127.0.0.1/a"));
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(EntryMatcher(entry, admsRequest).isMatch, isFalse);
+
+    // entry does not contain query, request contains query
+    entryString = "{'path': 'a'}";
+    entry = loadYaml(entryString);
+    shelfRequest = Request("GET", Uri.parse("http://127.0.0.1/a?id=1"));
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(EntryMatcher(entry, admsRequest).isMatch, isFalse);
+
+    // entry contains query, request contains query, entryQuery is not yamlMap
+    entryString = "{'path': 'a', 'query': 'id=1'}";
+    entry = loadYaml(entryString);
+    shelfRequest = Request("GET", Uri.parse("http://127.0.0.1/a?notid=1"));
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(EntryMatcher(entry, admsRequest).isMatch, isFalse);
+
+    // entry contains query, request contains query, request is missing a key
+    entryString = "{'path': 'a', 'query': {'id': 1}}";
+    entry = loadYaml(entryString);
+    shelfRequest = Request("GET", Uri.parse("http://127.0.0.1/a?notid=1"));
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(EntryMatcher(entry, admsRequest).isMatch, isFalse);
+
+    // entry contains query, request contains query, request key does not match
+    entryString = "{'path': 'a', 'query': {'id': 1}}";
+    entry = loadYaml(entryString);
+    shelfRequest = Request("GET", Uri.parse("http://127.0.0.1/a?id=2"));
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(EntryMatcher(entry, admsRequest).isMatch, isFalse);
+
+    // test is match
+    entryString = "{'path': 'a', 'query': {'id': 1, 'a': 'b'}}";
+    entry = loadYaml(entryString);
+    shelfRequest = Request("GET", Uri.parse("http://127.0.0.1/a?id=1&a=b&d=0"));
+    admsRequest = AdmsRequest(shelfRequest);
+    expect(EntryMatcher(entry, admsRequest).isMatch, isTrue);
   });
 
   test('TestEntryProperty', () {

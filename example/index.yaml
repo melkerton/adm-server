@@ -1,8 +1,10 @@
 - path: alpha
   response: flat!default.data
 
-- path: alpha?id=1
-  response: flat!samples/alpha.1
+- path: alpha
+  query:
+    id: 1
+  response: flat!alpha.1
 
 - path: beta
   response: exec!pipe-beta.py

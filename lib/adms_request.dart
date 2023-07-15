@@ -9,6 +9,7 @@ class AdmsRequest {
   AdmsRequest(this.shelfRequest, {this.requestBody});
 
   String get path => shelfRequest.url.path;
+  Map<String, String> get query => shelfRequest.url.queryParameters;
 }
 
 /*
