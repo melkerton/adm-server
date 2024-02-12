@@ -23,5 +23,3 @@ A simple example is available for [download](https://github.com/melkerton/adm-se
 
 2. an example demonstrating (a) a data response and (b) a pipe response on http://127.0.0.1:7777.
 
-
-[@kadevapp](https://twitter.com/kadevapp)
